@@ -1,0 +1,15 @@
+node_modules
+build
+coverage
+.vscode
+.DS_STORE
+.env
+tmp
+
+.yarn/*
+!.yarn/patches
+!.yarn/releases
+!.yarn/plugins
+!.yarn/sdks
+!.yarn/versions
+.pnp.*

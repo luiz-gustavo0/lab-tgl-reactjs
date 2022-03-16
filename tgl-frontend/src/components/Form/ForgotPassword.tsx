@@ -1,6 +1,6 @@
 import { Card } from 'components/Card';
 import { Button } from './Button';
-import { Input } from 'components/Input';
+import { Input } from './Input';
 
 import * as S from './styles';
 import iconArrowRight from '../../img/arrow-right.svg';

@@ -13,10 +13,10 @@ export const Wrapper = styled.div`
     padding: 0 3rem;
     border: 0;
     background: transparent;
-    color: var(--gray-500);
+    color: var(--gray-800);
 
     &::placeholder {
-      color: inherit;
+      color: var(--gray-500);
       font-weight: bold;
       font-style: italic;
     }

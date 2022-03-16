@@ -50,4 +50,8 @@ export const GlobalStyles = createGlobalStyle`
     font-family: inherit;
     font-size: 1.7rem;
   }
+
+  button {
+    cursor: pointer;
+  }
 `;

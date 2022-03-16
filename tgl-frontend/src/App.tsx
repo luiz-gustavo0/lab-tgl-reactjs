@@ -1,9 +1,9 @@
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
-import { Auth } from 'pages/Auth';
-import { Login } from 'pages/Auth/components/Login';
-import { Register } from 'pages/Auth/components/Register';
-import { ForgotPassword } from 'pages/Auth/components/ForgotPassword';
+
 import { GlobalStyles } from 'styles/global';
+
+import { Auth } from 'pages/Auth';
+import { ForgotPassword, Login, Register } from 'components/Form';
 
 function App() {
   return (

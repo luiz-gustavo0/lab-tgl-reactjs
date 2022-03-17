@@ -10,11 +10,14 @@ const axiosInstance = axios.create({
 
 axiosInstance.interceptors.request.use(
   async (config) => {
-    const tokenData = localStorage.getItem('tgl:token');
-    const { token } = JSON.parse(tokenData as '{}');
+    const tokenData = JSON.parse(localStorage.getItem('tgl:token') as '{}');
 
-    if (token) {
-      config.headers!.Authorization = `Bearer ${token}`;
+    if (!tokenData) {
+      return config;
+    }
+
+    if (config.headers) {
+      config.headers!.Authorization = `Bearer ${tokenData.token}`;
     }
 
     return config;

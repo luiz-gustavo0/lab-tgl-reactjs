@@ -1,13 +1,17 @@
-import { BrowserRouter, Route, Routes } from 'react-router-dom';
+import { Route, Routes } from 'react-router-dom';
+import { ToastContainer } from 'react-toastify';
 
 import { GlobalStyles } from 'styles/global';
 
 import { Auth } from 'pages/Auth';
 import { ForgotPassword, Login, Register } from 'components/Form';
 
+import 'react-toastify/dist/ReactToastify.css';
+
 function App() {
   return (
-    <BrowserRouter>
+    <>
+      <ToastContainer />
       <GlobalStyles />
       <Routes>
         <Route path='/' element={<p>Home</p>} />
@@ -17,7 +21,7 @@ function App() {
           <Route path='forgot-password' element={<ForgotPassword />} />
         </Route>
       </Routes>
-    </BrowserRouter>
+    </>
   );
 }
 

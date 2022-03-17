@@ -1,6 +1,6 @@
 import axios, { AxiosError } from 'axios';
 
-export const axiosInstance = axios.create({
+const axiosInstance = axios.create({
   baseURL: 'http://localhost:3333',
   headers: {
     'Content-Type': 'application/json',
@@ -23,15 +23,4 @@ axiosInstance.interceptors.request.use(
   }
 );
 
-axiosInstance.interceptors.response.use(
-  async (response) => {
-    return response;
-  },
-  (error: AxiosError) => {
-    if (error.response) {
-      return Promise.reject(error.response);
-    }
-
-    return Promise.reject(error);
-  }
-);
+export default axiosInstance;

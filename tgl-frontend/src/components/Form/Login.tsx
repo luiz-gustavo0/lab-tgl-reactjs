@@ -7,17 +7,17 @@ import * as yup from 'yup';
 import { toast } from 'react-toastify';
 
 import { Card } from 'components/Card';
+import { Spinner } from 'components/Spinner';
 import { Button } from './Button';
 import { Input } from './Input';
 
 import { useAppSelector } from 'store/hooks';
 import { login, selectAuth, clearState } from 'features/authSlice';
 
-import iconArrowRight from '../../img/arrow-right.svg';
-import iconArrowRightBlack from '../../img/arrow-right-black.svg';
+import iconArrowRight from 'img/arrow-right.svg';
 
 import * as S from './styles';
-import { Spinner } from 'components/Spinner';
+import { CustomLink } from 'components/CustomLink';
 
 type LoginFormData = {
   email: string;
@@ -74,7 +74,7 @@ export const Login = () => {
           {...register('password')}
           error={errors.password}
         />
-        <Link to='/'>I forgot my password</Link>
+        <Link to='forgot-password'>I forgot my password</Link>
         <Button>
           Log In
           {isFetching ? (
@@ -85,10 +85,7 @@ export const Login = () => {
         </Button>
       </S.FormContainer>
 
-      <S.ButtonContainer variant>
-        Sign Up
-        <img src={iconArrowRightBlack} alt='Arrow right icon' />
-      </S.ButtonContainer>
+      <CustomLink href='register' text='Sign Up' />
     </Card>
   );
 };

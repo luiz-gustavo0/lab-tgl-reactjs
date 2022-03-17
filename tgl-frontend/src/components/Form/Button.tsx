@@ -1,11 +1,9 @@
 import { ReactNode } from 'react';
-
-type ButtonProps = {
-  children: ReactNode;
-};
-
 import { ButtonContainer } from './styles';
+interface ButtonProps {
+  children: ReactNode;
+}
 
 export const Button = ({ children }: ButtonProps) => {
-  return <ButtonContainer variant={false}>{children}</ButtonContainer>;
+  return <ButtonContainer>{children}</ButtonContainer>;
 };

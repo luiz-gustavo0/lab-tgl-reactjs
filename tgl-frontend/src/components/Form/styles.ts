@@ -26,13 +26,9 @@ export const FormContainer = styled.form`
   }
 `;
 
-interface IButtonProps {
-  variant: boolean;
-}
-
-export const ButtonContainer = styled.button<IButtonProps>`
+export const ButtonContainer = styled.button`
   padding: 0.8rem 2rem;
-  color: ${(props) => (props.variant ? '#707070' : '#B5C401')};
+  color: var(--green-limon);
   font-size: 3.6rem;
   font-weight: bold;
   font-style: italic;

@@ -1,10 +1,10 @@
 import { Card } from 'components/Card';
 import { Button } from './Button';
 import { Input } from './Input';
+import { CustomLink } from 'components/CustomLink';
 import * as S from './styles';
 
-import iconArrowRight from '../../img/arrow-right.svg';
-import iconArrowLeft from '../../img/arrow-thin-left.svg';
+import iconArrowRight from 'img/arrow-right.svg';
 
 export const Register = () => {
   return (
@@ -19,10 +19,7 @@ export const Register = () => {
         </Button>
       </S.FormContainer>
 
-      <S.ButtonContainer variant>
-        <img src={iconArrowLeft} alt='Arrow left icon' />
-        Back
-      </S.ButtonContainer>
+      <CustomLink href='/auth' text='Back' />
     </Card>
   );
 };

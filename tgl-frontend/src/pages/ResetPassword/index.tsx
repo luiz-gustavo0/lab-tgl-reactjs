@@ -25,7 +25,7 @@ const forgotPasswordFormSchema = yup.object().shape({
 });
 
 const ResetPassword = () => {
-  const { error, status, token, user } = useAppSelector(selectResetPassword);
+  const { error, status, token } = useAppSelector(selectResetPassword);
 
   const dispatch = useDispatch();
   const navigate = useNavigate();

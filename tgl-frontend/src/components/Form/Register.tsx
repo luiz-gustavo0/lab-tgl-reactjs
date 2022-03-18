@@ -80,7 +80,7 @@ export const Register = () => {
           error={errors.password}
         />
         <Button>
-          Log In
+          Register
           {isFetching ? (
             <Spinner />
           ) : (

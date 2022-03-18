@@ -8,6 +8,15 @@ export type LoginCredentials = {
   password: string;
 };
 
+type ResetPasswordResponse = {
+  user: User;
+  token: string;
+};
+
+type ResetPasswordCredentials = {
+  email: string;
+};
+
 export type User = {
   id: number;
   email: string;
@@ -20,6 +29,7 @@ export type ErrorMessage = {
 
 export type AuthState = {
   user: User | null;
+  resetPasswordData: ResetPasswordResponse | null;
   isFetching: boolean;
   isSuccess: boolean;
   isError: boolean;
@@ -50,8 +60,29 @@ export const login = createAsyncThunk<
   }
 });
 
+export const resetPassword = createAsyncThunk<
+  ResetPasswordResponse,
+  ResetPasswordCredentials,
+  { rejectValue: ErrorMessage }
+>('auth/resetPassword', async ({ email }, thunkApi) => {
+  try {
+    const response = await api.post('/reset', { email });
+    const data = response.data;
+
+    return data;
+  } catch (error) {
+    const handleError = error as AxiosError<ErrorMessage>;
+    if (!handleError.response) {
+      throw error;
+    }
+
+    return thunkApi.rejectWithValue(handleError.response?.data);
+  }
+});
+
 const initialState: AuthState = {
   user: null,
+  resetPasswordData: null,
   isFetching: false,
   isAuthenticated: false,
   isSuccess: false,
@@ -86,6 +117,25 @@ const authSlice = createSlice({
         state.isSuccess = true;
       })
       .addCase(login.rejected, (state, action) => {
+        state.isFetching = false;
+        state.isError = true;
+
+        if (action.payload) {
+          state.error = action.payload;
+        } else {
+          state.error = { message: action.error.message! };
+        }
+      });
+    builder
+      .addCase(resetPassword.pending, (state) => {
+        state.isFetching = true;
+      })
+      .addCase(resetPassword.fulfilled, (state, { payload }) => {
+        state.isFetching = false;
+        state.isSuccess = true;
+        state.resetPasswordData = payload;
+      })
+      .addCase(resetPassword.rejected, (state, action) => {
         state.isFetching = false;
         state.isError = true;
 

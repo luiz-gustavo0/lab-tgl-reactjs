@@ -4,7 +4,12 @@ import { ToastContainer } from 'react-toastify';
 import { GlobalStyles } from 'styles/global';
 
 import { Auth } from 'pages/Auth';
-import { ForgotPassword, Login, Register } from 'components/Form';
+import {
+  ForgotPassword,
+  Login,
+  Register,
+  ResetPassword,
+} from 'components/Form';
 
 import 'react-toastify/dist/ReactToastify.css';
 
@@ -19,6 +24,7 @@ function App() {
           <Route index element={<Login />} />
           <Route path='register' element={<Register />} />
           <Route path='forgot-password' element={<ForgotPassword />} />
+          <Route path='reset-password/:token' element={<ResetPassword />} />
         </Route>
       </Routes>
     </>

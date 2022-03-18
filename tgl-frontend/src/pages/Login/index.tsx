@@ -6,18 +6,11 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
 import { toast } from 'react-toastify';
 
-import { Card } from 'components/Card';
-import { Spinner } from 'components/Spinner';
-import { Button } from './Button';
-import { Input } from './Input';
-
 import { useAppSelector } from 'store/hooks';
-import { login, selectAuth, clearState } from 'features/authSlice';
+import { login, selectAuth, clearLoginState } from 'features/auth/loginSlice';
 
+import { Button, Card, CustomLink, Form, Input, Spinner } from 'components';
 import iconArrowRight from 'img/arrow-right.svg';
-
-import * as S from './styles';
-import { CustomLink } from 'components/CustomLink';
 
 type LoginFormData = {
   email: string;
@@ -29,16 +22,14 @@ const loginFormSchema = yup.object().shape({
   password: yup.string().required(),
 });
 
-export const Login = () => {
-  const { error, isError, isSuccess, isFetching, user } =
-    useAppSelector(selectAuth);
+const Login = () => {
+  const { error, status, user } = useAppSelector(selectAuth);
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
   const {
     register,
     handleSubmit,
-    setFocus,
     formState: { errors },
   } = useForm<LoginFormData>({ resolver: yupResolver(loginFormSchema) });
 
@@ -47,21 +38,21 @@ export const Login = () => {
   };
 
   useEffect(() => {
-    if (isSuccess) {
+    if (status === 'SUCCESS') {
       toast.success(`Bem vindo ${user?.name}!`);
-      dispatch(clearState());
+      dispatch(clearLoginState());
       navigate('/');
     }
 
-    if (isError) {
+    if (status === 'FAILED') {
       toast.error(error?.message);
-      dispatch(clearState());
+      dispatch(clearLoginState());
     }
-  }, [isSuccess, isError]);
+  }, [status]);
 
   return (
     <Card tittle='Authentication'>
-      <S.FormContainer onSubmit={handleSubmit(handleLogin)}>
+      <Form onSubmit={handleSubmit(handleLogin)}>
         <Input
           type='email'
           placeholder='Email'
@@ -77,15 +68,17 @@ export const Login = () => {
         <Link to='forgot-password'>I forgot my password</Link>
         <Button>
           Log In
-          {isFetching ? (
+          {status === 'LOADING' ? (
             <Spinner />
           ) : (
             <img src={iconArrowRight} alt='Arrow right icon' />
           )}
         </Button>
-      </S.FormContainer>
+      </Form>
 
       <CustomLink href='register' text='Sign Up' />
     </Card>
   );
 };
+
+export default Login;

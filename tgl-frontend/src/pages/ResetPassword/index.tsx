@@ -1,22 +1,20 @@
 import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
 import { toast } from 'react-toastify';
 
-import { Card } from 'components/Card';
-import { Button } from './Button';
-import { Input } from './Input';
-import { CustomLink } from 'components/CustomLink';
-
-import { useDispatch } from 'react-redux';
 import { useAppSelector } from 'store/hooks';
-import { clearState, resetPassword, selectAuth } from 'features/authSlice';
+import {
+  clearResetPasswordState,
+  resetPassword,
+  selectResetPassword,
+} from 'features/auth/resetPasswordSlice';
 
-import * as S from './styles';
+import { Button, Card, CustomLink, Form, Input, Spinner } from 'components';
 import iconArrowRight from 'img/arrow-right.svg';
-import { Spinner } from 'components/Spinner';
 
 type ForgotPasswordFormData = {
   email: string;
@@ -26,9 +24,8 @@ const forgotPasswordFormSchema = yup.object().shape({
   email: yup.string().required().email(),
 });
 
-export const ForgotPassword = () => {
-  const { resetPasswordData, isError, error, isFetching, isSuccess } =
-    useAppSelector(selectAuth);
+const ResetPassword = () => {
+  const { error, status, token, user } = useAppSelector(selectResetPassword);
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -46,22 +43,22 @@ export const ForgotPassword = () => {
   };
 
   useEffect(() => {
-    if (isSuccess) {
+    if (status === 'SUCCESS') {
       toast.success('Email sent successfully!');
-      dispatch(clearState());
-      navigate(`/auth/reset-password/${resetPasswordData?.token}`);
+      dispatch(clearResetPasswordState());
+      navigate(`/auth/reset-password/${token}`);
     }
 
-    if (isError) {
+    if (status === 'FAILED') {
       setFocus('email');
       toast.error(error?.message);
-      dispatch(clearState());
+      dispatch(clearResetPasswordState());
     }
-  }, [isSuccess, isError, setFocus]);
+  }, [status, setFocus]);
 
   return (
     <Card tittle='Reset password'>
-      <S.FormContainer onSubmit={handleSubmit(onSubmit)}>
+      <Form onSubmit={handleSubmit(onSubmit)}>
         <Input
           placeholder='Email'
           {...register('email')}
@@ -69,15 +66,17 @@ export const ForgotPassword = () => {
         />
         <Button>
           Send link
-          {isFetching ? (
+          {status === 'LOADING' ? (
             <Spinner />
           ) : (
             <img src={iconArrowRight} alt='Arrow right icon' />
           )}
         </Button>
-      </S.FormContainer>
+      </Form>
 
       <CustomLink href='/auth' text='Back' />
     </Card>
   );
 };
+
+export default ResetPassword;

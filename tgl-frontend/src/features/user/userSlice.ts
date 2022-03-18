@@ -1,8 +1,8 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import { AxiosError } from 'axios';
 import { RootState } from 'store';
-import { ErrorMessage, User } from './authSlice';
 import api from 'services/api';
+import type { ErrorMessage, User } from '@types';
 
 type SignupCredentials = {
   name: string;
@@ -12,9 +12,7 @@ type SignupCredentials = {
 
 type UserState = {
   user: User | null;
-  isFetching: boolean;
-  isSuccess: boolean;
-  isError: boolean;
+  status: 'IDLE' | 'LOADING' | 'SUCCESS' | 'FAILED';
   error: ErrorMessage | null;
 };
 
@@ -41,9 +39,7 @@ export const signUpUser = createAsyncThunk<
 
 const initialState: UserState = {
   user: null,
-  isFetching: false,
-  isSuccess: false,
-  isError: false,
+  status: 'IDLE',
   error: null,
 };
 
@@ -51,26 +47,22 @@ const userSlice = createSlice({
   name: 'users',
   initialState,
   reducers: {
-    clearState(state) {
-      state.isFetching = false;
-      state.isSuccess = false;
-      state.isError = false;
+    clearUserState(state) {
+      state.status = 'IDLE';
       state.error = null;
     },
   },
   extraReducers: (builder) => {
     builder
       .addCase(signUpUser.pending, (state) => {
-        state.isFetching = true;
+        state.status = 'LOADING';
       })
       .addCase(signUpUser.fulfilled, (state, { payload }) => {
         state.user = payload;
-        state.isFetching = false;
-        state.isSuccess = true;
+        state.status = 'SUCCESS';
       })
       .addCase(signUpUser.rejected, (state, action) => {
-        state.isFetching = false;
-        state.isError = true;
+        state.status = 'FAILED';
 
         if (action.payload) {
           state.error = action.payload;
@@ -81,6 +73,6 @@ const userSlice = createSlice({
   },
 });
 
-export const { clearState } = userSlice.actions;
+export const { clearUserState } = userSlice.actions;
 export const selectUser = (state: RootState) => state.users;
 export default userSlice.reducer;

@@ -17,7 +17,7 @@ export const InputBase: ForwardRefRenderFunction<
   InputProps
 > = ({ name, label, error = null, ...props }, ref) => {
   return (
-    <S.Wrapper isError={!!error}>
+    <S.Wrapper hasError={!!error}>
       <input id={name} name={name} ref={ref} {...props} />
     </S.Wrapper>
   );

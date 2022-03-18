@@ -2,21 +2,21 @@ import styled from 'styled-components';
 import alertIconInput from 'img/alert.svg';
 
 type InputProps = {
-  isError?: boolean;
+  hasError?: boolean;
 };
 
 export const Wrapper = styled.div<InputProps>`
   width: 100%;
   height: 8rem;
   border-bottom: 2px solid;
-  border-bottom-color: ${(props) => (props.isError ? '#FE5F55' : '#EBEBEB')};
+  border-bottom-color: ${(props) => (props.hasError ? '#FE5F55' : '#EBEBEB')};
   display: flex;
   align-items: center;
   position: relative;
 
   &::after {
     content: '';
-    display: ${(props) => (props.isError ? 'block' : 'none')};
+    display: ${(props) => (props.hasError ? 'block' : 'none')};
     width: 20px;
     height: 20px;
     background: url(${alertIconInput}) no-repeat center center;

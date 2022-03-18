@@ -6,16 +6,14 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
 import { toast } from 'react-toastify';
 
-import { Card } from 'components/Card';
-import { CustomLink } from 'components/CustomLink';
-import { Spinner } from 'components/Spinner';
-import { Button } from './Button';
-import { Input } from './Input';
-
 import { useAppSelector } from 'store/hooks';
-import { selectUser, signUpUser, clearState } from 'features/userSlice';
+import {
+  selectUser,
+  signUpUser,
+  clearUserState,
+} from 'features/user/userSlice';
 
-import * as S from './styles';
+import { Button, Card, CustomLink, Form, Input, Spinner } from 'components';
 import iconArrowRight from 'img/arrow-right.svg';
 
 type SignupFormData = {
@@ -30,8 +28,8 @@ const SugnupFormSchema = yup.object().shape({
   password: yup.string().required(),
 });
 
-export const Register = () => {
-  const { error, isError, isFetching, isSuccess } = useAppSelector(selectUser);
+const Register = () => {
+  const { status, error } = useAppSelector(selectUser);
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
@@ -50,21 +48,21 @@ export const Register = () => {
   };
 
   useEffect(() => {
-    if (isSuccess) {
+    if (status === 'SUCCESS') {
       toast.success(`Cadastrado com sucesso!`);
-      dispatch(clearState());
+      dispatch(clearUserState());
       navigate('/auth');
     }
 
-    if (isError) {
+    if (status === 'FAILED') {
       toast.error(error?.message);
-      dispatch(clearState());
+      dispatch(clearUserState());
     }
-  }, [isSuccess, isError]);
+  }, [status]);
 
   return (
     <Card tittle='Registration'>
-      <S.FormContainer onSubmit={handleSubmit(handleSignup)}>
+      <Form onSubmit={handleSubmit(handleSignup)}>
         <Input placeholder='Name' {...register('name')} error={errors.name} />
         <Input
           type='email'
@@ -81,15 +79,17 @@ export const Register = () => {
         />
         <Button>
           Register
-          {isFetching ? (
+          {status === 'LOADING' ? (
             <Spinner />
           ) : (
             <img src={iconArrowRight} alt='Arrow right icon' />
           )}
         </Button>
-      </S.FormContainer>
+      </Form>
 
       <CustomLink href='/auth' text='Back' />
     </Card>
   );
 };
+
+export default Register;

@@ -2,7 +2,7 @@ import { Outlet } from 'react-router-dom';
 
 import * as S from './styles';
 
-export const Auth = () => {
+export const Layout = () => {
   return (
     <S.Wrapper>
       <S.Container>

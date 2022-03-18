@@ -1,9 +1,9 @@
 import { ReactNode } from 'react';
-import { ButtonContainer } from './styles';
+import * as S from './styles';
 interface ButtonProps {
   children: ReactNode;
 }
 
 export const Button = ({ children }: ButtonProps) => {
-  return <ButtonContainer>{children}</ButtonContainer>;
+  return <S.ButtonContainer>{children}</S.ButtonContainer>;
 };

@@ -7,7 +7,7 @@ import { useCallback } from 'react';
 import { useDispatch } from 'react-redux';
 import { setIsAuthenticated } from 'features/auth/loginSlice';
 
-const Header = () => {
+export const Header = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 

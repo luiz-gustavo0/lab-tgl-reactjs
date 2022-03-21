@@ -66,7 +66,8 @@ const betsSlice = createSlice({
         state.status = 'LOADING';
       })
       .addCase(getBets.fulfilled, (state, { payload }) => {
-        (state.status = 'SUCCESS'), (state.bets = payload);
+        state.status = 'SUCCESS';
+        state.bets = payload;
       })
       .addCase(getBets.rejected, (state, action) => {
         state.status = 'FAILED';

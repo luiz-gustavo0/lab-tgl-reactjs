@@ -8,6 +8,8 @@ import Register from 'pages/Register';
 import ResetPassword from 'pages/ResetPassword';
 import ChangePassword from 'pages/ChangePassword';
 import { Layout } from 'components';
+import { PrivateRoutes } from 'components/PrivateRoutes';
+import Home from 'pages/Home';
 
 function App() {
   return (
@@ -15,7 +17,15 @@ function App() {
       <ToastContainer />
       <GlobalStyles />
       <Routes>
-        <Route path='/' element={<p>Home</p>} />
+        <Route
+          path='/'
+          element={
+            <PrivateRoutes>
+              <Home />
+            </PrivateRoutes>
+          }
+        />
+
         <Route path='auth' element={<Layout />}>
           <Route index element={<Login />} />
           <Route path='register' element={<Register />} />

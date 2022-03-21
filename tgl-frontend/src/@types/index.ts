@@ -17,3 +17,16 @@ export type Game = {
   max_number: number;
   color: string;
 };
+
+export type Bet = {
+  id: number;
+  user_id: number;
+  game_id: number;
+  choosen_numbers: string;
+  price: number;
+  created_at: Date;
+  type: {
+    id: number;
+    type: string;
+  };
+};

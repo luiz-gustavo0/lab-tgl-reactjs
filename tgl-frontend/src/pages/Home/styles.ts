@@ -43,7 +43,6 @@ export const Filters = styled.div`
 
 type ButtonProps = {
   color: string;
-  isSelected: boolean;
 };
 
 export const Button = styled.button<ButtonProps>`
@@ -56,9 +55,9 @@ export const Button = styled.button<ButtonProps>`
   border-width: 2px;
   border-style: solid;
   transition: all 0.2s ease;
-  color: ${(props) => (props.isSelected ? '#fff' : props.color)};
+  color: ${(props) => props.color};
   border-color: ${(props) => props.color};
-  background: ${(props) => (props.isSelected ? props.color : '#fff')};
+  background: #fff;
 `;
 
 export const GamesContainer = styled.div`

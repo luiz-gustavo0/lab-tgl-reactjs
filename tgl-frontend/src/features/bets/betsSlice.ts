@@ -1,17 +1,8 @@
-import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
+import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
 import type { ErrorMessage } from '@types';
 import { AxiosError } from 'axios';
 import api from 'services/api';
 import { RootState } from 'store';
-
-// export type BetResponse = {
-//   choosen_numbers: string;
-//   user_id: number;
-//   game_id: number;
-//   price: number;
-//   created_at: Date;
-//   id: number;
-// };
 
 export interface Bet {
   id: number;
@@ -48,18 +39,31 @@ type BetState = {
   bets: Bet[];
   status: 'IDLE' | 'LOADING' | 'SUCCESS' | 'FAILED';
   error: ErrorMessage | null;
+  filterStatus: string;
 };
 
 const initialState: BetState = {
   bets: [],
   status: 'IDLE',
   error: null,
+  filterStatus: 'all',
 };
 
 const betsSlice = createSlice({
   name: 'bets',
   initialState,
-  reducers: {},
+  reducers: {
+    clearBetState(state) {
+      state.bets = [];
+      state.status = 'IDLE';
+      state.error = null;
+      state.filterStatus = 'all';
+    },
+
+    updateFilterStatus(state, action: PayloadAction<string>) {
+      state.filterStatus = action.payload;
+    },
+  },
   extraReducers: (builder) => {
     builder
       .addCase(getBets.pending, (state) => {
@@ -81,5 +85,6 @@ const betsSlice = createSlice({
   },
 });
 
+export const { clearBetState, updateFilterStatus } = betsSlice.actions;
 export const selectBet = (state: RootState) => state.bets;
 export default betsSlice.reducer;

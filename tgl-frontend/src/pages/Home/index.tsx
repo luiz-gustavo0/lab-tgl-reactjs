@@ -1,18 +1,26 @@
+import { useCallback, useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
-import { Container, Header, Spinner } from 'components';
-
-import arrowRightIcon from 'img/arrow-right.svg';
-
-import * as S from './styles';
-import { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
-import { getBets, selectBet } from 'features/bets/betsSlice';
-import { useAppSelector } from 'store/hooks';
 import { toast } from 'react-toastify';
+
+import { useAppSelector } from 'store/hooks';
+import {
+  clearBetState,
+  getBets,
+  selectBet,
+  updateFilterStatus,
+} from 'features/bets/betsSlice';
 import { getGames, selectGame } from 'features/game/gameSlice';
 
+import { Container, Header, Spinner } from 'components';
+import arrowRightIcon from 'img/arrow-right.svg';
+import type { Game } from '@types';
+
+import * as S from './styles';
+
 const Home = () => {
-  const { bets, status, error } = useAppSelector(selectBet);
+  const [gameSelected, setGameSelected] = useState<Game | null>(null);
+  const { bets, status, error, filterStatus } = useAppSelector(selectBet);
   const { games } = useAppSelector(selectGame);
   const dispatch = useDispatch();
 
@@ -24,15 +32,28 @@ const Home = () => {
   useEffect(() => {
     if (status === 'FAILED') {
       toast.error(error?.message);
+      clearBetState();
     }
   }, [status]);
 
-  const betsFormated = bets.map((bet) => {
+  const handleFilterBets = useCallback((gameType: string) => {
+    dispatch(updateFilterStatus(gameType));
+  }, []);
+
+  const betsCopy = [...bets];
+  const betsFormated = betsCopy.map((bet) => {
     const game = games.find((game) => game.id === bet.game_id);
     return {
       ...bet,
       color: game?.color,
     };
+  });
+
+  const filteredBets = betsFormated.filter((bet) => {
+    if (filterStatus === 'all') {
+      return true;
+    }
+    return bet.type.type === filterStatus;
   });
 
   return (
@@ -44,7 +65,11 @@ const Home = () => {
           <S.Filters>
             <span>Filters</span>
             {games.map((game) => (
-              <S.Button key={game.id} isSelected={false} color={game.color}>
+              <S.Button
+                key={game.id}
+                color={game.color}
+                onClick={() => handleFilterBets(game.type)}
+              >
                 {game.type}
               </S.Button>
             ))}
@@ -56,8 +81,8 @@ const Home = () => {
         </S.Navigation>
         <S.GamesContainer>
           {status === 'LOADING' && <Spinner />}
-          {status === 'SUCCESS' &&
-            betsFormated.map((bet) => (
+          {filteredBets ? (
+            filteredBets.map((bet) => (
               <S.Game key={bet.id} color={bet.color}>
                 <p className='game-number'>{bet.choosen_numbers}</p>
                 <p className='game-price'>
@@ -65,7 +90,10 @@ const Home = () => {
                 </p>
                 <p className='game-name'>{bet.type.type}</p>
               </S.Game>
-            ))}
+            ))
+          ) : (
+            <p>No bet registered.</p>
+          )}
         </S.GamesContainer>
       </Container>
     </>

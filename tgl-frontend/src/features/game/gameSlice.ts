@@ -1,4 +1,5 @@
 import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
+import { toast } from 'react-toastify';
 import { AxiosError } from 'axios';
 import api from 'services/api';
 import { RootState } from 'store';
@@ -16,6 +17,7 @@ type GameState = {
     game: Game | null;
     selected: boolean;
   };
+  numbersSelected: number[];
   status: 'IDLE' | 'LOADING' | 'SUCCESS' | 'FAILED';
   error: ErrorMessage | null;
 };
@@ -39,6 +41,7 @@ export const getGames = createAsyncThunk<
 
 const initialState: GameState = {
   games: [],
+  numbersSelected: [],
   minCartValue: 30,
   gameSelected: {
     game: null,
@@ -66,6 +69,55 @@ const gameSlice = createSlice({
         };
       }
     },
+
+    addNumberSelected(state, action: PayloadAction<number>) {
+      if (!state.gameSelected.game) {
+        return state;
+      }
+
+      const numberExists = state.numbersSelected.find(
+        (number) => number === action.payload
+      );
+      const maxNumber = state.gameSelected.game?.max_number;
+
+      if (!numberExists && state.numbersSelected.length < maxNumber) {
+        state.numbersSelected.push(action.payload);
+      } else {
+        state.numbersSelected = state.numbersSelected.filter(
+          (number) => number !== numberExists
+        );
+
+        if (state.numbersSelected.length === maxNumber) {
+          toast.warn('Cannot add more numbers');
+        }
+      }
+    },
+
+    addNumbersRandomly(state) {
+      if (!state.gameSelected.game) {
+        return state;
+      }
+
+      const maxNumber = state.gameSelected.game?.max_number;
+
+      if (state.numbersSelected.length === maxNumber) {
+        state.numbersSelected = [];
+      }
+
+      while (state.numbersSelected.length < maxNumber) {
+        const numberRandom = Math.floor(
+          Math.random() * (state.gameSelected.game.range - 1) + 1
+        );
+
+        if (!state.numbersSelected.includes(numberRandom)) {
+          state.numbersSelected.push(numberRandom);
+        }
+      }
+    },
+
+    clearGame(state) {
+      state.numbersSelected = [];
+    },
   },
   extraReducers: (builder) => {
     builder
@@ -78,7 +130,7 @@ const gameSlice = createSlice({
         state.minCartValue = payload.min_cart_value;
         state.gameSelected = {
           game: payload.types[0],
-          selected: false,
+          selected: true,
         };
       })
       .addCase(getGames.rejected, (state, action) => {
@@ -92,7 +144,43 @@ const gameSlice = createSlice({
   },
 });
 
-export const { setGameSelected } = gameSlice.actions;
+export const {
+  setGameSelected,
+  addNumberSelected,
+  clearGame,
+  addNumbersRandomly,
+} = gameSlice.actions;
 export const selectGame = (state: RootState) => state.game;
 
 export default gameSlice.reducer;
+
+export const generateNumbersOfGame = (state: RootState) => {
+  const range = state.game.gameSelected.game?.range;
+  const numbers: number[] = [];
+  if (!range) {
+    return numbers;
+  }
+  for (let i = 1; i <= range; i++) {
+    numbers.push(i);
+  }
+  return numbers;
+};
+
+// export const addNumbersRandomly = (state: RootState) => {
+//   const maxNumber = state.game.gameSelected.game?.max_number;
+//   if (state.game.numbersSelected.length === maxNumber) {
+//     state.game.numbersSelected = [];
+//   }
+
+//   if (state.game.gameSelected.game && maxNumber) {
+//     while (state.game.numbersSelected.length < maxNumber) {
+//       const numberRandom = Math.floor(
+//         Math.random() * (state.game.gameSelected.game.range - 1) + 1
+//       );
+
+//       if (!state.game.numbersSelected.includes(numberRandom)) {
+//         state.game.numbersSelected.push(numberRandom);
+//       }
+//     }
+//   }
+// };

@@ -1,5 +1,6 @@
 export { Button } from './Button';
 export { Card } from './Card';
+export { Cart } from './Cart';
 export { Container } from './Container';
 export { CustomLink } from './CustomLink';
 export { Form } from './Form';

@@ -69,14 +69,15 @@ const Home = () => {
                 color={game.color}
                 onClick={() => handleFilterBets(game.type)}
                 isSelected={
-                  gameSelected.selected && gameSelected.game?.type === game.type
+                  filterStatus !== 'all' &&
+                  gameSelected.game?.type === game.type
                 }
               >
                 {game.type}
               </S.Button>
             ))}
           </S.Filters>
-          <Link to='/'>
+          <Link to='new-bet'>
             New Bet
             <img src={arrowRightIcon} alt='Arrow right icon' />
           </Link>

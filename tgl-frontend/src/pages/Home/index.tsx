@@ -10,18 +10,16 @@ import {
   selectBet,
   updateFilterStatus,
 } from 'features/bets/betsSlice';
-import { getGames, selectGame } from 'features/game/gameSlice';
+import { getGames, selectGame, setGameSelected } from 'features/game/gameSlice';
 
 import { Container, Header, Spinner } from 'components';
 import arrowRightIcon from 'img/arrow-right.svg';
-import type { Game } from '@types';
 
 import * as S from './styles';
 
 const Home = () => {
-  const [gameSelected, setGameSelected] = useState<Game | null>(null);
   const { bets, status, error, filterStatus } = useAppSelector(selectBet);
-  const { games } = useAppSelector(selectGame);
+  const { games, gameSelected } = useAppSelector(selectGame);
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -38,6 +36,7 @@ const Home = () => {
 
   const handleFilterBets = useCallback((gameType: string) => {
     dispatch(updateFilterStatus(gameType));
+    dispatch(setGameSelected(gameType));
   }, []);
 
   const betsCopy = [...bets];
@@ -69,6 +68,9 @@ const Home = () => {
                 key={game.id}
                 color={game.color}
                 onClick={() => handleFilterBets(game.type)}
+                isSelected={
+                  gameSelected.selected && gameSelected.game?.type === game.type
+                }
               >
                 {game.type}
               </S.Button>

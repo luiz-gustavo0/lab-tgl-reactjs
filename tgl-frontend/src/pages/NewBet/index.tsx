@@ -15,6 +15,8 @@ import {
   selectGame,
   setGameSelected,
 } from 'features/game/gameSlice';
+import { addItemToCart } from 'features/cart/cartSlice';
+import { CartItem } from '@types';
 
 import * as S from './styles';
 import iconCart from 'img/cart.svg';
@@ -46,6 +48,19 @@ const NewBet = () => {
 
   const handleCompleteGame = () => {
     dispatch(addNumbersRandomly());
+  };
+
+  const handleAddItemToCart = ({ game, numbers }: CartItem) => {
+    if (numbers.length < game.max_number) {
+      toast.warn(
+        `There are ${
+          game.max_number - numbers.length
+        } numbers left to complete the game.`
+      );
+      return;
+    }
+
+    dispatch(addItemToCart({ game, numbers }));
   };
 
   return (
@@ -103,7 +118,15 @@ const NewBet = () => {
             <S.Button onClick={() => dispatch(clearGame())}>
               Clear game
             </S.Button>
-            <S.Button outilined>
+            <S.Button
+              outilined
+              onClick={() =>
+                handleAddItemToCart({
+                  game: gameSelected.game!,
+                  numbers: numbersSelected,
+                })
+              }
+            >
               <img src={iconCart} alt='Cart icon' />
               Add to cart
             </S.Button>

@@ -93,7 +93,7 @@ export const CartItem = styled.div`
 `;
 
 type BoxInfoProps = {
-  color?: string;
+  color: string;
 };
 
 export const BoxInfo = styled.div<BoxInfoProps>`
@@ -103,6 +103,7 @@ export const BoxInfo = styled.div<BoxInfoProps>`
   border-left: 4px solid;
   border-top-left-radius: 4px;
   border-bottom-left-radius: 4px;
+  border-left-color: ${(props) => props.color};
 
   p {
     margin-top: 0.6rem;
@@ -128,5 +129,6 @@ export const BoxInfo = styled.div<BoxInfoProps>`
 
   strong {
     font-style: italic;
+    color: ${(props) => props.color};
   }
 `;

@@ -165,22 +165,3 @@ export const generateNumbersOfGame = (state: RootState) => {
   }
   return numbers;
 };
-
-// export const addNumbersRandomly = (state: RootState) => {
-//   const maxNumber = state.game.gameSelected.game?.max_number;
-//   if (state.game.numbersSelected.length === maxNumber) {
-//     state.game.numbersSelected = [];
-//   }
-
-//   if (state.game.gameSelected.game && maxNumber) {
-//     while (state.game.numbersSelected.length < maxNumber) {
-//       const numberRandom = Math.floor(
-//         Math.random() * (state.game.gameSelected.game.range - 1) + 1
-//       );
-
-//       if (!state.game.numbersSelected.includes(numberRandom)) {
-//         state.game.numbersSelected.push(numberRandom);
-//       }
-//     }
-//   }
-// };

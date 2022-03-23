@@ -54,4 +54,49 @@ export const GlobalStyles = createGlobalStyle`
   button {
     cursor: pointer;
   }
+
+  .overlay-modal {
+    background: rgba(0, 0, 0, 0.7);
+  }
+
+  .react-confirm-alert {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .react-confirm-alert-body {
+    background: var(--gray-50);
+    width: 100%;
+    max-width: 50rem;
+    height: 18rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+
+    h1 {
+      font-size: 2.2rem;
+      color: var(--gray-800);
+    }
+  }
+
+  .react-confirm-alert-button-group {
+   button {
+     width: 13rem;
+      height: 4rem;
+      font-size: 1.7rem;
+      transition: all .2s ease;
+
+      &.confirm-buttom {
+        background: #f2545b;
+      }
+
+      &:hover {
+        filter: brightness(.8);
+      }
+    }
+
+  
+  }
 `;

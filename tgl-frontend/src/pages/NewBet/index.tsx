@@ -16,7 +16,7 @@ import {
   setGameSelected,
 } from 'features/game/gameSlice';
 import { addItemToCart } from 'features/cart/cartSlice';
-import { CartItem } from '@types';
+import { CartItem, Game } from '@types';
 
 import * as S from './styles';
 import iconCart from 'img/cart.svg';
@@ -50,7 +50,7 @@ const NewBet = () => {
     dispatch(addNumbersRandomly());
   };
 
-  const handleAddItemToCart = ({ game, numbers }: CartItem) => {
+  const handleAddItemToCart = (game: Game, numbers: number[]) => {
     if (numbers.length < game.max_number) {
       toast.warn(
         `There are ${
@@ -121,10 +121,7 @@ const NewBet = () => {
             <S.Button
               outilined
               onClick={() =>
-                handleAddItemToCart({
-                  game: gameSelected.game!,
-                  numbers: numbersSelected,
-                })
+                handleAddItemToCart(gameSelected.game!, numbersSelected)
               }
             >
               <img src={iconCart} alt='Cart icon' />

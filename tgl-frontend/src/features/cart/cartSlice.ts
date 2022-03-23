@@ -38,3 +38,13 @@ export const { addItemToCart, removeItemFromCart } = cartSlice.actions;
 export const selectCart = (state: RootState) => state.cart;
 
 export default cartSlice.reducer;
+
+export const getTotalValueCart = (state: RootState) => {
+  const { cart } = state.cart;
+
+  const totalValue = cart.reduce((acc, item) => {
+    return acc + item.game.price;
+  }, 0);
+
+  return totalValue;
+};

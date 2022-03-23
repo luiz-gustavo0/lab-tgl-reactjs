@@ -16,6 +16,7 @@ import { Container, Header, Spinner } from 'components';
 import arrowRightIcon from 'img/arrow-right.svg';
 
 import * as S from './styles';
+import { formatDate, formatNumber } from 'utils/format';
 
 const Home = () => {
   const { bets, status, error, filterStatus } = useAppSelector(selectBet);
@@ -89,7 +90,7 @@ const Home = () => {
               <S.Game key={bet.id} color={bet.color}>
                 <p className='game-number'>{bet.choosen_numbers}</p>
                 <p className='game-price'>
-                  {bet.created_at} - ({bet.price})
+                  {formatDate(bet.created_at)} - ({formatNumber(bet.price)})
                 </p>
                 <p className='game-name'>{bet.type.type}</p>
               </S.Game>

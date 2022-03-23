@@ -3,6 +3,7 @@ import { removeItemFromCart, selectCart } from 'features/cart/cartSlice';
 import * as S from './styles';
 import iconTrash from 'img/trash-o.svg';
 import { useDispatch } from 'react-redux';
+import { formatNumber } from 'utils/format';
 
 export const CartItems = () => {
   const { cart } = useAppSelector(selectCart);
@@ -28,7 +29,7 @@ export const CartItems = () => {
             <span className='numbers'>{item.numbers.toString()}</span>
             <p>
               <strong>{item.game.type}</strong>
-              <span className='price'>{item.game.price}</span>
+              <span className='price'>{formatNumber(item.game.price)}</span>
             </p>
           </S.BoxInfo>
         </S.CartItem>

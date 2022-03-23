@@ -32,6 +32,7 @@ export type Bet = {
 };
 
 export type CartItem = {
+  id: string;
   numbers: number[];
   game: Game;
 };

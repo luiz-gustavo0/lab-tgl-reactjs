@@ -1,17 +1,27 @@
 import { useAppSelector } from 'store/hooks';
-import { selectCart } from 'features/cart/cartSlice';
+import { removeItemFromCart, selectCart } from 'features/cart/cartSlice';
 import * as S from './styles';
 import iconTrash from 'img/trash-o.svg';
+import { useDispatch } from 'react-redux';
 
 export const CartItems = () => {
   const { cart } = useAppSelector(selectCart);
+  const dispatch = useDispatch();
+
+  const handleRemoveItemFromCart = (id: string) => {
+    const confirm = window.confirm('Deseja remover este item?');
+
+    if (confirm) {
+      dispatch(removeItemFromCart(id));
+    }
+  };
 
   return (
     <S.CartItemContainer>
       {cart.length === 0 && <p>No bets added to cart.</p>}
       {cart.map((item) => (
-        <S.CartItem key={item.game.id}>
-          <button>
+        <S.CartItem key={item.id}>
+          <button onClick={() => handleRemoveItemFromCart(item.id)}>
             <img src={iconTrash} alt='Icon trash' />
           </button>
           <S.BoxInfo color={item.game.color}>

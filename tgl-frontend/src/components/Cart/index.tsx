@@ -1,9 +1,9 @@
-import * as S from './styles';
-
 import { CartItems } from './CartItems';
-import iconArrowRight from 'img/arrow-right-green.svg';
 import { useAppSelector } from 'store/hooks';
 import { selectCart } from 'features/cart/cartSlice';
+
+import * as S from './styles';
+import iconArrowRight from 'img/arrow-right-green.svg';
 
 export const Cart = () => {
   const { totalCartValue } = useAppSelector(selectCart);

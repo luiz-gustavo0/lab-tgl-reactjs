@@ -1,5 +1,5 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import type { CartItem } from '@types';
+import type { CartItem, Game } from '@types';
 import type { RootState } from 'store';
 
 type CartState = {
@@ -16,13 +16,25 @@ const cartSlice = createSlice({
   name: 'cart',
   initialState,
   reducers: {
-    addItemToCart(state, action: PayloadAction<CartItem>) {
-      state.cart.push(action.payload);
+    addItemToCart(
+      state,
+      action: PayloadAction<{ game: Game; numbers: number[] }>
+    ) {
+      const id = Math.random().toString(36).substring(2, 5);
+      const cartItem = {
+        id,
+        game: action.payload.game,
+        numbers: action.payload.numbers,
+      };
+      state.cart.push(cartItem);
+    },
+    removeItemFromCart(state, action: PayloadAction<string>) {
+      state.cart = state.cart.filter((item) => item.id !== action.payload);
     },
   },
 });
 
-export const { addItemToCart } = cartSlice.actions;
+export const { addItemToCart, removeItemFromCart } = cartSlice.actions;
 export const selectCart = (state: RootState) => state.cart;
 
 export default cartSlice.reducer;

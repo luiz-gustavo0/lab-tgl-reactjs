@@ -28,6 +28,7 @@ export const login = createAsyncThunk<
 
     api.defaults.headers.common.Authorization = tokenData.token;
     localStorage.setItem('tgl:token', JSON.stringify(tokenData));
+    localStorage.setItem('tgl:user', JSON.stringify(user));
     return user;
   } catch (error) {
     const handleError = error as AxiosError<ErrorMessage>;
@@ -84,3 +85,9 @@ const loginSlice = createSlice({
 export const { setIsAuthenticated, clearLoginState } = loginSlice.actions;
 export const selectAuth = (state: RootState) => state.login;
 export default loginSlice.reducer;
+
+export const getUserData = (state: RootState) => {
+  const user: User = JSON.parse(localStorage.getItem('tgl:user') as '{}');
+
+  return user;
+};

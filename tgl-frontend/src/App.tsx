@@ -10,6 +10,7 @@ const ResetPassword = lazy(() => import('pages/ResetPassword'));
 const ChangePassword = lazy(() => import('pages/ChangePassword'));
 const Home = lazy(() => import('pages/Home'));
 const NewBet = lazy(() => import('pages/NewBet'));
+const NewGame = lazy(() => import('pages/NewGame'));
 
 import { Layout, PrivateRoutes } from 'components';
 
@@ -33,6 +34,14 @@ function App() {
             element={
               <PrivateRoutes>
                 <NewBet />
+              </PrivateRoutes>
+            }
+          />
+          <Route
+            path='/new-game'
+            element={
+              <PrivateRoutes>
+                <NewGame />
               </PrivateRoutes>
             }
           />

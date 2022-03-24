@@ -7,4 +7,5 @@ export { Form } from './Form';
 export { Header } from './Header';
 export { Input } from './Input';
 export { Layout } from './Layout';
+export { PrivateRoutes } from './PrivateRoutes';
 export { Spinner } from './Spinner';

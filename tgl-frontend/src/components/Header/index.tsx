@@ -51,7 +51,7 @@ export const Header = () => {
             </li>
             {user?.is_admin && (
               <li>
-                <Link to='new-game' onClick={handleOpenMenu}>
+                <Link to='/new-game' onClick={handleOpenMenu}>
                   New Game
                 </Link>
               </li>

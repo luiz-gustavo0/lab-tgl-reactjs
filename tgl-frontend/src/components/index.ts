@@ -4,6 +4,7 @@ export { Cart } from './Cart';
 export { Container } from './Container';
 export { CustomLink } from './CustomLink';
 export { Form } from './Form';
+export { Footer } from './Footer';
 export { Header } from './Header';
 export { Input } from './Input';
 export { Layout } from './Layout';

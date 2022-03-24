@@ -4,7 +4,7 @@ export const Container = styled.main`
   width: 100%;
   max-width: 118rem;
   margin-inline: auto;
-  padding: 0 2rem;
+  padding: 0 2rem 8rem;
 
   display: flex;
   gap: 4rem;

@@ -12,7 +12,7 @@ const Home = lazy(() => import('pages/Home'));
 const NewBet = lazy(() => import('pages/NewBet'));
 const NewGame = lazy(() => import('pages/NewGame'));
 
-import { Layout, PrivateRoutes } from 'components';
+import { Footer, Layout, PrivateRoutes } from 'components';
 
 function App() {
   return (
@@ -52,6 +52,7 @@ function App() {
             <Route path='reset-password/:token' element={<ChangePassword />} />
           </Route>
         </Routes>
+        <Footer />
       </Suspense>
     </>
   );

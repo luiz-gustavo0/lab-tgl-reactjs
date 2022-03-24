@@ -10,6 +10,11 @@ export const Wrapper = styled.main`
   display: flex;
   align-items: center;
   justify-content: center;
+
+  @media (max-width: 900px) {
+    padding: 4rem 2rem;
+    align-items: flex-start;
+  }
 `;
 
 export const Container = styled.div`
@@ -18,6 +23,15 @@ export const Container = styled.div`
   padding: 0 4rem;
   display: flex;
   justify-content: space-between;
+
+  @media (max-width: 900px) {
+    flex-direction: column;
+    align-items: center;
+    gap: 4rem;
+    padding: 0;
+
+    /* padding: 4rem 2rem; */
+  }
 `;
 
 export const Heading = styled.div`
@@ -56,5 +70,23 @@ export const Heading = styled.div`
     color: var(--white);
     font-style: italic;
     font-weight: bold;
+  }
+
+  @media (max-width: 900px) {
+    max-width: 100%;
+    gap: 2rem;
+
+    h2 {
+      font-size: 3.6rem;
+      max-width: 12ch;
+    }
+
+    h1 {
+      font-size: 4.2rem;
+    }
+
+    button {
+      height: 3.6rem;
+    }
   }
 `;

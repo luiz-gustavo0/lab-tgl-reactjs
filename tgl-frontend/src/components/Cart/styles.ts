@@ -1,5 +1,32 @@
 import styled from 'styled-components';
 
+export const WrapperCart = styled.div<{ isOpen: boolean }>`
+  @media (max-width: 900px) {
+    display: ${(props) => (props.isOpen ? 'flex' : 'none')};
+    width: 100%;
+    position: absolute;
+    left: 0;
+    top: 0;
+    height: 100vh;
+    background: rgba(0, 0, 0, 0.7);
+    align-items: center;
+    justify-content: center;
+    z-index: 100;
+  }
+`;
+
+export const ButtonCloseCart = styled.button<{ isOpen: boolean }>`
+  display: ${(props) => (props.isOpen ? 'block' : 'none')};
+  position: absolute;
+  top: 2rem;
+  right: 2rem;
+
+  width: 4rem;
+  height: 4rem;
+  background: var(--gray-50);
+  border: 0;
+`;
+
 export const Container = styled.aside`
   margin-top: 4rem;
   width: 32rem;

@@ -4,12 +4,12 @@ import type { RootState } from 'store';
 
 type CartState = {
   cart: CartItem[];
-  // totalCartValue: number;
+  isCartOpen: boolean;
 };
 
 const initialState: CartState = {
   cart: [],
-  // totalCartValue: 0,
+  isCartOpen: false,
 };
 
 const cartSlice = createSlice({
@@ -32,14 +32,27 @@ const cartSlice = createSlice({
       state.cart = state.cart.filter((item) => item.id !== action.payload);
     },
 
+    openCart(state, action: PayloadAction<boolean>) {
+      state.isCartOpen = action.payload;
+    },
+
+    closeCart(state, action: PayloadAction<boolean>) {
+      state.isCartOpen = action.payload;
+    },
+
     clearStateCart(state) {
       state.cart = [];
     },
   },
 });
 
-export const { addItemToCart, removeItemFromCart, clearStateCart } =
-  cartSlice.actions;
+export const {
+  addItemToCart,
+  removeItemFromCart,
+  clearStateCart,
+  openCart,
+  closeCart,
+} = cartSlice.actions;
 export const selectCart = (state: RootState) => state.cart;
 
 export default cartSlice.reducer;

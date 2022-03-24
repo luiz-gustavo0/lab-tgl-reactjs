@@ -13,6 +13,11 @@ export const Container = styled.div`
 
   display: flex;
   align-items: center;
+  position: relative;
+
+  @media (max-width: 768px) {
+    justify-content: space-between;
+  }
 `;
 
 export const Logo = styled.div`
@@ -40,19 +45,35 @@ export const Logo = styled.div`
     font-weight: bold;
     font-style: italic;
   }
+
+  @media (max-width: 768px) {
+    margin-right: 0;
+  }
 `;
 
-export const Navigation = styled.nav`
+type NavigationProps = {
+  isOpen: boolean;
+};
+
+export const Navigation = styled.nav<NavigationProps>`
   width: 100%;
   height: 100%;
   display: flex;
   align-items: center;
-  justify-content: space-between;
 
   ul {
+    width: 100%;
     display: flex;
     align-items: center;
     gap: 4rem;
+
+    & li:first-child {
+      margin-right: auto;
+    }
+
+    & li:nth-child(2) {
+      margin-left: auto;
+    }
   }
 
   a {
@@ -80,5 +101,66 @@ export const Navigation = styled.nav`
       width: 21px;
       height: 17px;
     }
+  }
+
+  @media (max-width: 768px) {
+    display: ${(props) => (props.isOpen ? 'flex' : 'none')};
+    align-items: flex-start;
+    position: absolute;
+    background: var(--gray-50);
+    top: 0;
+    left: 0;
+
+    width: 100%;
+    height: 100vh;
+    z-index: 10;
+
+    ul {
+      flex-direction: column;
+      gap: 2rem;
+      margin-top: 10rem;
+
+      & li:first-child {
+        margin-right: 0;
+      }
+
+      & li:nth-child(2) {
+        margin-left: 0;
+      }
+    }
+
+    button img {
+      display: none;
+    }
+
+    a:hover {
+      text-decoration: underline;
+    }
+  }
+`;
+
+export const ButtonMenu = styled.button`
+  display: none;
+
+  width: 32px;
+  height: 32px;
+  background: transparent;
+  border: 0;
+  z-index: 20;
+
+  @media (max-width: 768px) {
+    display: block;
+  }
+`;
+
+export const ButtonCart = styled.button`
+  display: none;
+  width: 32px;
+  height: 32px;
+  background: transparent;
+  border: 0;
+
+  @media (max-width: 768px) {
+    display: block;
   }
 `;

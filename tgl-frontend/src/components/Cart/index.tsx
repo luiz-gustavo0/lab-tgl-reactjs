@@ -2,6 +2,7 @@ import { CartItems } from './CartItems';
 import { useAppSelector } from 'store/hooks';
 import {
   clearStateCart,
+  closeCart,
   getTotalValueCart,
   selectCart,
 } from 'features/cart/cartSlice';
@@ -14,9 +15,11 @@ import { clearBetState, createBet, selectBet } from 'features/bets/betsSlice';
 import { toast } from 'react-toastify';
 import { useDispatch } from 'react-redux';
 
+import iconCloseCart from 'img/clear.svg';
+
 export const Cart = () => {
   const totalCartValue = useAppSelector(getTotalValueCart);
-  const { cart } = useAppSelector(selectCart);
+  const { cart, isCartOpen } = useAppSelector(selectCart);
   const { status, error } = useAppSelector(selectBet);
 
   const dispatch = useDispatch();
@@ -49,20 +52,28 @@ export const Cart = () => {
   };
 
   return (
-    <S.Container>
-      <S.Content>
-        <h3>Cart</h3>
+    <S.WrapperCart isOpen={isCartOpen}>
+      <S.ButtonCloseCart
+        isOpen={isCartOpen}
+        onClick={() => dispatch(closeCart(false))}
+      >
+        <img src={iconCloseCart} alt='icon close cart' />
+      </S.ButtonCloseCart>
+      <S.Container>
+        <S.Content>
+          <h3>Cart</h3>
 
-        <CartItems />
-        <h4>
-          Cart <span>Total: {formatNumber(totalCartValue)}</span>
-        </h4>
-      </S.Content>
-      <S.Box>
-        <button onClick={handleSaveBet}>
-          Save <img src={iconArrowRight} alt='Arrow right icon' />
-        </button>
-      </S.Box>
-    </S.Container>
+          <CartItems />
+          <h4>
+            Cart <span>Total: {formatNumber(totalCartValue)}</span>
+          </h4>
+        </S.Content>
+        <S.Box>
+          <button onClick={handleSaveBet}>
+            Save <img src={iconArrowRight} alt='Arrow right icon' />
+          </button>
+        </S.Box>
+      </S.Container>
+    </S.WrapperCart>
   );
 };

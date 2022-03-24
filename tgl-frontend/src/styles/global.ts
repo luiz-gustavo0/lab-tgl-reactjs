@@ -96,7 +96,11 @@ export const GlobalStyles = createGlobalStyle`
         filter: brightness(.8);
       }
     }
+  }
 
-  
+  @media(max-width: 768px) {
+    body {
+      font-size: 1.6rem;
+    }
   }
 `;

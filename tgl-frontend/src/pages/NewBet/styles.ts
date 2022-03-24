@@ -41,6 +41,10 @@ export const ChooseGame = styled.div`
     display: flex;
     align-items: center;
     gap: 2.4rem;
+
+    @media (max-width: 600px) {
+      gap: 1rem;
+    }
   }
 
   .error {
@@ -73,6 +77,7 @@ export const NumbersContainer = styled.div`
   max-width: 68rem;
   display: flex;
   align-items: center;
+  justify-content: center;
   flex-wrap: wrap;
   gap: 2rem 1.4rem;
 `;
@@ -91,6 +96,11 @@ export const ButtonNumber = styled.button<ButtonNumberProps>`
   background: ${(props) => (props.isSelected ? props.color : '#adc0c4')};
   border-radius: 50%;
   border: 0;
+
+  @media (max-width: 600px) {
+    width: 4.8rem;
+    height: 4.8rem;
+  }
 `;
 
 export const GameControllers = styled.div`
@@ -100,27 +110,46 @@ export const GameControllers = styled.div`
   display: flex;
   align-items: center;
   gap: 2.4rem;
+
+  div {
+    display: flex;
+    align-items: center;
+    gap: 2.4rem;
+  }
+
+  @media (max-width: 600px) {
+    flex-direction: column;
+
+    div {
+      width: 100%;
+    }
+
+    button {
+      width: 100%;
+      height: 4.8rem;
+    }
+  }
 `;
 
 type ButtonProps = {
-  outilined?: boolean;
+  outlined?: boolean;
 };
 
 export const Button = styled.button<ButtonProps>`
-  background: ${(props) => (props.outilined ? '#27C383' : 'transparent')};
+  background: ${(props) => (props.outlined ? '#27C383' : 'transparent')};
   border: 1px solid var(--green-light);
   height: 5.2rem;
-  width: ${(props) => props.outilined && '20rem'};
+  width: ${(props) => props.outlined && '20rem'};
   padding: 2rem;
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: ${(props) => (props.outilined ? '2.8rem' : 0)};
+  gap: ${(props) => (props.outlined ? '2.8rem' : 0)};
   border-radius: 1rem;
-  color: ${(props) => (props.outilined ? '#fff' : '#27C383')};
+  color: ${(props) => (props.outlined ? '#fff' : '#27C383')};
   font-weight: 500;
   transition: all 0.2s ease;
-  margin-left: ${(props) => props.outilined && 'auto'};
+  margin-left: ${(props) => props.outlined && 'auto'};
 
   &:hover {
     filter: brightness(0.9);

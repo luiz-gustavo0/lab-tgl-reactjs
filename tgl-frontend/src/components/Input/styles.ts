@@ -43,4 +43,8 @@ export const Wrapper = styled.div<InputProps>`
       outline: none;
     }
   }
+
+  @media (max-width: 768px) {
+    height: 7rem;
+  }
 `;

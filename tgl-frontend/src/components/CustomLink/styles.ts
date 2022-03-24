@@ -19,4 +19,9 @@ export const Wrapper = styled.div`
       height: 2.4rem;
     }
   }
+  @media (max-width: 768px) {
+    a {
+      font-size: 2.8rem;
+    }
+  }
 `;

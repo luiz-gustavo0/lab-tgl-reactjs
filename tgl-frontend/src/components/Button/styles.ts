@@ -18,4 +18,8 @@ export const ButtonContainer = styled.button`
     width: 2.4rem;
     height: 2.4rem;
   }
+
+  @media (max-width: 768px) {
+    font-size: 2.8rem;
+  }
 `;

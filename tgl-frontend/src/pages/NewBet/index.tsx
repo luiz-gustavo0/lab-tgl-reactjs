@@ -113,14 +113,16 @@ const NewBet = () => {
             ))}
           </S.NumbersContainer>
           <S.GameControllers>
-            <S.Button onClick={() => handleCompleteGame()}>
-              Complete game
-            </S.Button>
-            <S.Button onClick={() => dispatch(clearGame())}>
-              Clear game
-            </S.Button>
+            <div>
+              <S.Button onClick={() => handleCompleteGame()}>
+                Complete game
+              </S.Button>
+              <S.Button onClick={() => dispatch(clearGame())}>
+                Clear game
+              </S.Button>
+            </div>
             <S.Button
-              outilined
+              outlined
               onClick={() =>
                 handleAddItemToCart(gameSelected.game!, numbersSelected)
               }

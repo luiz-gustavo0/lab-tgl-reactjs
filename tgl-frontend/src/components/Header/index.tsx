@@ -21,6 +21,7 @@ export const Header = () => {
 
   const logout = useCallback(() => {
     localStorage.removeItem('tgl:token');
+    localStorage.removeItem('tgl:user');
     dispatch(setIsAuthenticated(false));
     navigate('/auth');
   }, []);

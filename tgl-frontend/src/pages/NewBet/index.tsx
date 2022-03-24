@@ -22,7 +22,7 @@ import * as S from './styles';
 import iconCart from 'img/cart.svg';
 
 const NewBet = () => {
-  const { games, gameSelected, status, error, numbersSelected } =
+  const { games, gameSelected, error, numbersSelected } =
     useAppSelector(selectGame);
   const numbers = useAppSelector(generateNumbersOfGame);
   const dispatch = useDispatch();
@@ -35,7 +35,7 @@ const NewBet = () => {
     if (error) {
       toast.error(error.message);
     }
-  }, []);
+  }, [error]);
 
   const handleSelectNumber = (number: number) => {
     dispatch(addNumberSelected(number));
@@ -61,6 +61,7 @@ const NewBet = () => {
     }
 
     dispatch(addItemToCart({ game, numbers }));
+    toast.success('Game added to cart');
   };
 
   return (

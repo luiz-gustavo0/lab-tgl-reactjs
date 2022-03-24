@@ -1,6 +1,7 @@
 import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
 import type { ErrorMessage } from '@types';
 import { AxiosError } from 'axios';
+import { toast } from 'react-toastify';
 import api from 'services/api';
 import { RootState } from 'store';
 
@@ -17,6 +18,15 @@ export interface Bet {
   };
 }
 
+type BetPayload = {
+  game_id: number;
+  numbers: number[];
+};
+
+type BetCreate = {
+  games: BetPayload[];
+};
+
 export const getBets = createAsyncThunk<
   Bet[],
   void,
@@ -25,6 +35,26 @@ export const getBets = createAsyncThunk<
   try {
     const response = await api.get('/bet/all-bets');
     return response.data;
+  } catch (error) {
+    const handleError = error as AxiosError<ErrorMessage>;
+    if (!handleError.response) {
+      throw error;
+    }
+
+    return thunkApi.rejectWithValue(handleError.response?.data);
+  }
+});
+
+export const createBet = createAsyncThunk<
+  void,
+  BetCreate,
+  { rejectValue: ErrorMessage }
+>('bet/create', async ({ games }, thunkApi) => {
+  try {
+    const response = await api.post('/bet/new-bet', { games });
+    if (response.status === 200) {
+      toast.success('Bet save successfully');
+    }
   } catch (error) {
     const handleError = error as AxiosError<ErrorMessage>;
     if (!handleError.response) {
@@ -76,6 +106,21 @@ const betsSlice = createSlice({
       .addCase(getBets.rejected, (state, action) => {
         state.status = 'FAILED';
 
+        if (action.payload) {
+          state.error = action.payload;
+        } else {
+          state.error = { message: action.error.message! };
+        }
+      });
+    builder
+      .addCase(createBet.pending, (state) => {
+        state.status = 'LOADING';
+      })
+      .addCase(createBet.fulfilled, (state) => {
+        state.status = 'SUCCESS';
+      })
+      .addCase(createBet.rejected, (state, action) => {
+        state.status = 'FAILED';
         if (action.payload) {
           state.error = action.payload;
         } else {

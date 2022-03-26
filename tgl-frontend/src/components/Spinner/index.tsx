@@ -1,8 +1,12 @@
 import * as S from './styles';
 
-export const Spinner = () => {
+type SpinnerProps = {
+  full: boolean;
+};
+
+export const Spinner = ({ full }: SpinnerProps) => {
   return (
-    <S.Wrapper className='lds-ring'>
+    <S.Wrapper full={full}>
       <div></div>
       <div></div>
       <div></div>

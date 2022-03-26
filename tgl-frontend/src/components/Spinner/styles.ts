@@ -1,18 +1,20 @@
 import styled from 'styled-components';
 
-export const Wrapper = styled.div`
+export const Wrapper = styled.div<{ full: boolean }>`
   display: inline-block;
   position: relative;
-  width: 24px;
-  height: 24px;
+  width: ${(props) => (props.full ? '100%' : '24px')};
+  height: ${(props) => (props.full ? '100vh' : '24px')};
+
   display: flex;
   align-items: center;
   justify-content: center;
 
   & div {
     position: absolute;
-    width: 20px;
-    height: 20px;
+    width: ${(props) => (props.full ? '50px' : '20px')};
+    height: ${(props) => (props.full ? '50px' : '20px')};
+
     border: 2px solid var(--green-limon);
     border-radius: 50%;
     animation: lds-ring 1.2s cubic-bezier(0.5, 0, 0.5, 1) infinite;

@@ -1,29 +1,24 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import { AxiosError } from 'axios';
 import { RootState } from 'store';
-import type { ErrorMessage, User } from '@types';
-
-import api from 'services/api';
-
-type ResetPasswordResponse = {
-  user: User;
-  token: string;
-};
+import { ResetPasswordResponse } from 'services/auth/interfaces';
+import { resetPassword } from 'services/auth';
+import { ErrorMessage } from '@types';
 
 type ResetPasswordState = {
-  user: User | null;
+  user: ResetPasswordResponse | null;
   token: string | null;
   status: 'IDLE' | 'LOADING' | 'SUCCESS' | 'FAILED';
-  error: ErrorMessage | null;
+  error: string | null | undefined;
 };
 
-export const resetPassword = createAsyncThunk<
+export const resetPasswordThunk = createAsyncThunk<
   ResetPasswordResponse,
   { email: string },
   { rejectValue: ErrorMessage }
 >('auth/resetPassword', async ({ email }, thunkApi) => {
   try {
-    const response = await api.post('/reset', { email });
+    const response = await resetPassword(email);
     const data = response.data;
 
     return data;
@@ -54,20 +49,20 @@ const resetPasswordSlice = createSlice({
   },
   extraReducers: (builder) => {
     builder
-      .addCase(resetPassword.pending, (state) => {
+      .addCase(resetPasswordThunk.pending, (state) => {
         state.status = 'LOADING';
       })
-      .addCase(resetPassword.fulfilled, (state, { payload }) => {
+      .addCase(resetPasswordThunk.fulfilled, (state, { payload }) => {
         state.status = 'SUCCESS';
-        state.user = payload.user;
+        state.user = payload;
         state.token = payload.token;
       })
-      .addCase(resetPassword.rejected, (state, action) => {
+      .addCase(resetPasswordThunk.rejected, (state, action) => {
         state.status = 'FAILED';
         if (action.payload) {
-          state.error = action.payload;
+          state.error = action.payload.message;
         } else {
-          state.error = { message: action.error.message! };
+          state.error = action.error.message;
         }
       });
   },

@@ -12,14 +12,14 @@ const Home = lazy(() => import('pages/Home'));
 const NewBet = lazy(() => import('pages/NewBet'));
 const NewGame = lazy(() => import('pages/NewGame'));
 
-import { Footer, Layout, PrivateRoutes } from 'components';
+import { Footer, Layout, PrivateRoutes, Spinner } from 'components';
 
 function App() {
   return (
     <>
       <ToastContainer />
       <GlobalStyles />
-      <Suspense fallback={<p>Loading...</p>}>
+      <Suspense fallback={<Spinner full />}>
         <Routes>
           <Route
             path='/'

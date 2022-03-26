@@ -57,6 +57,7 @@ export const GlobalStyles = createGlobalStyle`
 
   .overlay-modal {
     background: rgba(0, 0, 0, 0.7);
+    padding: 2rem;
   }
 
   .react-confirm-alert {

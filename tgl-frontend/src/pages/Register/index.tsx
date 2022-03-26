@@ -23,9 +23,12 @@ type SignupFormData = {
 };
 
 const SugnupFormSchema = yup.object().shape({
-  name: yup.string().required(),
-  email: yup.string().required().email(),
-  password: yup.string().required(),
+  name: yup.string().required('Required field'),
+  email: yup.string().required('Required field').email('Enter a valid email.'),
+  password: yup
+    .string()
+    .required('Required field')
+    .min(6, 'Password must be at least 6 characters long '),
 });
 
 const Register = () => {
@@ -80,7 +83,7 @@ const Register = () => {
         <Button>
           Register
           {status === 'LOADING' ? (
-            <Spinner />
+            <Spinner full={false} />
           ) : (
             <img src={iconArrowRight} alt='Arrow right icon' />
           )}

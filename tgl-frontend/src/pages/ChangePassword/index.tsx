@@ -3,10 +3,8 @@ import { SubmitHandler, useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
 import { toast } from 'react-toastify';
-import { AxiosError } from 'axios';
 
-import api from 'services/api';
-
+import { changePassword } from 'services/auth';
 import { Button, Card, CustomLink, Form, Input } from 'components';
 import iconArrowRight from 'img/arrow-right.svg';
 
@@ -15,7 +13,10 @@ type ChangePasswordData = {
 };
 
 const changePasswordFormSchema = yup.object().shape({
-  password: yup.string().required(),
+  password: yup
+    .string()
+    .required('Required field')
+    .min(6, 'Password must be at least 6 characters long '),
 });
 
 const ChangePassword = () => {
@@ -31,19 +32,19 @@ const ChangePassword = () => {
   });
 
   const onSubmit: SubmitHandler<ChangePasswordData> = async ({ password }) => {
+    if (!token) {
+      toast.error('Token not found.');
+      return navigate('/auth/forgot-password', { replace: true });
+    }
     try {
-      const response = await api.post(`/reset/${token}`, { password });
+      const response = await changePassword(token, password);
 
       if (response.status === 200) {
         toast.success('Password changed successfully!');
         navigate('/auth', { replace: true });
       }
     } catch (error) {
-      const handleError = error as AxiosError;
-      if (!handleError.response) {
-        throw error;
-      }
-      toast.error('Failed to change password ');
+      toast.error('Failed to change password');
     }
   };
 

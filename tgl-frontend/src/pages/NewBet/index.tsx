@@ -2,7 +2,7 @@ import { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import { toast } from 'react-toastify';
 
-import { Cart, Header, Spinner } from 'components';
+import { Cart, Header } from 'components';
 import { Button } from 'pages/Home/styles';
 
 import { useAppSelector } from 'store/hooks';
@@ -16,7 +16,7 @@ import {
   setGameSelected,
 } from 'features/game/gameSlice';
 import { addItemToCart } from 'features/cart/cartSlice';
-import { CartItem, Game } from '@types';
+import { Game } from '@types';
 
 import * as S from './styles';
 import iconCart from 'img/cart.svg';
@@ -71,15 +71,12 @@ const NewBet = () => {
         <S.ContentGame>
           <h2>
             <span>New Bet </span>
-            <span className='game-name'>Game name</span>
+            <span className='game-name'>{gameSelected.game?.type}</span>
           </h2>
           <S.ChooseGame>
             <h4>Choose a game</h4>
             <div>
-              {status === 'FAILED' && (
-                <p className='error'>*Failed to load games </p>
-              )}
-              {status === 'LOADING' && <Spinner />}
+              {error && <p className='error'>*Failed to load games </p>}
               {games.map((game) => (
                 <Button
                   key={game.id}

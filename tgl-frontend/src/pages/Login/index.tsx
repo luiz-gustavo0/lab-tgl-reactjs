@@ -18,8 +18,11 @@ type LoginFormData = {
 };
 
 const loginFormSchema = yup.object().shape({
-  email: yup.string().required().email(),
-  password: yup.string().required(),
+  email: yup.string().required('Required field').email('Enter a valid email.'),
+  password: yup
+    .string()
+    .required('Required field')
+    .min(6, 'Password must be at least 6 characters long '),
 });
 
 const Login = () => {
@@ -45,7 +48,7 @@ const Login = () => {
     }
 
     if (status === 'FAILED') {
-      toast.error(error?.message);
+      toast.error(error);
       dispatch(clearLoginState());
     }
   }, [status]);
@@ -69,7 +72,7 @@ const Login = () => {
         <Button>
           Log In
           {status === 'LOADING' ? (
-            <Spinner />
+            <Spinner full={false} />
           ) : (
             <img src={iconArrowRight} alt='Arrow right icon' />
           )}

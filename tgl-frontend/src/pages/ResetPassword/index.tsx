@@ -9,7 +9,7 @@ import { toast } from 'react-toastify';
 import { useAppSelector } from 'store/hooks';
 import {
   clearResetPasswordState,
-  resetPassword,
+  resetPasswordThunk,
   selectResetPassword,
 } from 'features/auth/resetPasswordSlice';
 
@@ -21,7 +21,7 @@ type ForgotPasswordFormData = {
 };
 
 const forgotPasswordFormSchema = yup.object().shape({
-  email: yup.string().required().email(),
+  email: yup.string().required('Required field').email('Enter a valid email.'),
 });
 
 const ResetPassword = () => {
@@ -39,7 +39,7 @@ const ResetPassword = () => {
   });
 
   const onSubmit: SubmitHandler<ForgotPasswordFormData> = async ({ email }) => {
-    dispatch(resetPassword({ email }));
+    dispatch(resetPasswordThunk({ email }));
   };
 
   useEffect(() => {
@@ -51,7 +51,7 @@ const ResetPassword = () => {
 
     if (status === 'FAILED') {
       setFocus('email');
-      toast.error(error?.message);
+      toast.error(error);
       dispatch(clearResetPasswordState());
     }
   }, [status, setFocus]);
@@ -67,7 +67,7 @@ const ResetPassword = () => {
         <Button>
           Send link
           {status === 'LOADING' ? (
-            <Spinner />
+            <Spinner full={false} />
           ) : (
             <img src={iconArrowRight} alt='Arrow right icon' />
           )}

@@ -10,9 +10,10 @@ export const Wrapper = styled.div<InputProps>`
   height: 8rem;
   border-bottom: 2px solid;
   border-bottom-color: ${(props) => (props.hasError ? '#FE5F55' : '#EBEBEB')};
-  display: flex;
-  align-items: center;
   position: relative;
+  display: grid;
+  grid-template-columns: 1fr;
+  place-content: center;
 
   &::after {
     content: '';
@@ -21,17 +22,21 @@ export const Wrapper = styled.div<InputProps>`
     height: 20px;
     background: url(${alertIconInput}) no-repeat center center;
     position: absolute;
+    top: 2.5rem;
     right: 3rem;
     z-index: 10;
   }
 
   input {
+    grid-column: 1;
+    grid-row: 1;
     width: 100%;
-    height: 4.8rem;
+    height: 4.5rem;
     padding: 0 3rem;
     border: 0;
     background: transparent;
     color: var(--gray-800);
+    transition: all 0.2s ease;
 
     &::placeholder {
       color: var(--gray-500);
@@ -41,6 +46,20 @@ export const Wrapper = styled.div<InputProps>`
 
     &:focus {
       outline: none;
+    }
+  }
+
+  p {
+    grid-column: 1;
+    grid-row: 2;
+    padding-left: 3rem;
+    font-size: 1.4rem;
+    color: #fe5f55;
+    margin-top: 0.5rem;
+    transition: all 0.2s ease;
+
+    &:hover {
+      display: none;
     }
   }
 

@@ -3,6 +3,7 @@ export type User = {
   email: string;
   name: string;
   is_admin: boolean;
+  bets: Game[];
 };
 
 export type ErrorMessage = {

@@ -84,7 +84,7 @@ const Home = () => {
           </Link>
         </S.Navigation>
         <S.GamesContainer>
-          {status === 'LOADING' && <Spinner />}
+          {status === 'LOADING' && <Spinner full={false} />}
           {filteredBets ? (
             filteredBets.map((bet) => (
               <S.Game key={bet.id} color={bet.color}>

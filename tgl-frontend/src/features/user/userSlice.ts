@@ -31,7 +31,6 @@ export const signUpUser = createAsyncThunk<
     if (!handleError.response) {
       throw error;
     }
-    console.log(thunkApi.rejectWithValue(handleError.response.data));
 
     return thunkApi.rejectWithValue(handleError.response?.data);
   }

@@ -3,19 +3,16 @@ import * as S from './styles';
 
 import { useCallback, useState } from 'react';
 import { useDispatch } from 'react-redux';
-import { getUserData, setIsAuthenticated } from 'features/auth/loginSlice';
+import { setIsAuthenticated } from 'features/auth/loginSlice';
 
 import iconMenu from 'img/menu.svg';
 import iconCart from 'img/cart-black.svg';
 import iconCloseMenu from 'img/clear.svg';
 import iconArrowRightBlack from 'img/arrow-right-black.svg';
 import { openCart } from 'features/cart/cartSlice';
-import { useAppSelector } from 'store/hooks';
-import { selectUser } from 'features/user/userSlice';
 
 export const Header = () => {
   const [isOpenMenu, setIsOpenMenu] = useState(false);
-  const user = useAppSelector(getUserData);
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
@@ -50,13 +47,6 @@ export const Header = () => {
                 Home
               </Link>
             </li>
-            {user?.is_admin && (
-              <li>
-                <Link to='/new-game' onClick={handleOpenMenu}>
-                  New Game
-                </Link>
-              </li>
-            )}
             <li>
               <Link to='/' onClick={handleOpenMenu}>
                 Account

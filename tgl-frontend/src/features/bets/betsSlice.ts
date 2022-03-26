@@ -1,39 +1,19 @@
 import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
-import type { ErrorMessage } from '@types';
+import type { Bet, ErrorMessage } from '@types';
 import { AxiosError } from 'axios';
 import { toast } from 'react-toastify';
-import api from 'services/api';
+import { fetchBets, postBet } from 'services/bets';
+import { Betbody } from 'services/bets/interfaces';
 import { RootState } from 'store';
-
-export interface Bet {
-  id: number;
-  user_id: number;
-  game_id: number;
-  choosen_numbers: string;
-  price: number;
-  created_at: Date;
-  type: {
-    id: number;
-    type: string;
-  };
-}
-
-type BetPayload = {
-  game_id: number;
-  numbers: number[];
-};
-
-type BetCreate = {
-  games: BetPayload[];
-};
 
 export const getBets = createAsyncThunk<
   Bet[],
-  void,
+  { params: string[] },
   { rejectValue: ErrorMessage }
->('bet/get', async (_, thunkApi) => {
+>('bet/get', async ({ params }, thunkApi) => {
   try {
-    const response = await api.get('/bet/all-bets');
+    const response = await fetchBets(params);
+
     return response.data;
   } catch (error) {
     const handleError = error as AxiosError<ErrorMessage>;
@@ -47,11 +27,11 @@ export const getBets = createAsyncThunk<
 
 export const createBet = createAsyncThunk<
   void,
-  BetCreate,
+  Betbody,
   { rejectValue: ErrorMessage }
->('bet/create', async ({ games }, thunkApi) => {
+>('bet/create', async (games, thunkApi) => {
   try {
-    const response = await api.post('/bet/new-bet', { games });
+    const response = await postBet(games);
     if (response.status === 200) {
       toast.success('Bet save successfully');
     }
@@ -68,15 +48,13 @@ export const createBet = createAsyncThunk<
 type BetState = {
   bets: Bet[];
   status: 'IDLE' | 'LOADING' | 'SUCCESS' | 'FAILED';
-  error: ErrorMessage | null;
-  filterStatus: string;
+  error: string | null | undefined;
 };
 
 const initialState: BetState = {
   bets: [],
   status: 'IDLE',
   error: null,
-  filterStatus: 'all',
 };
 
 const betsSlice = createSlice({
@@ -87,11 +65,6 @@ const betsSlice = createSlice({
       state.bets = [];
       state.status = 'IDLE';
       state.error = null;
-      state.filterStatus = 'all';
-    },
-
-    updateFilterStatus(state, action: PayloadAction<string>) {
-      state.filterStatus = action.payload;
     },
   },
   extraReducers: (builder) => {
@@ -105,11 +78,10 @@ const betsSlice = createSlice({
       })
       .addCase(getBets.rejected, (state, action) => {
         state.status = 'FAILED';
-
         if (action.payload) {
-          state.error = action.payload;
+          state.error = action.payload.message;
         } else {
-          state.error = { message: action.error.message! };
+          state.error = action.error.message;
         }
       });
     builder
@@ -122,14 +94,14 @@ const betsSlice = createSlice({
       .addCase(createBet.rejected, (state, action) => {
         state.status = 'FAILED';
         if (action.payload) {
-          state.error = action.payload;
+          state.error = action.payload.message;
         } else {
-          state.error = { message: action.error.message! };
+          state.error = action.error.message;
         }
       });
   },
 });
 
-export const { clearBetState, updateFilterStatus } = betsSlice.actions;
+export const { clearBetState } = betsSlice.actions;
 export const selectBet = (state: RootState) => state.bets;
 export default betsSlice.reducer;

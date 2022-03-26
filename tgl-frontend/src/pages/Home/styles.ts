@@ -85,6 +85,42 @@ export const Filters = styled.div`
   }
 `;
 
+type LabelProps = {
+  color: string;
+};
+
+export const Label = styled.label<LabelProps>`
+  cursor: pointer;
+  span {
+    height: 3.4rem;
+    width: 11rem;
+    border-radius: 100px;
+    background: #fff;
+    font-size: 1.4rem;
+    font-weight: bold;
+    border-width: 2px;
+    border-style: solid;
+    border-color: ${(props) => props.color};
+    color: ${(props) => props.color};
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  input[type='checkbox'] {
+    display: none;
+  }
+
+  input[type='checkbox']:checked + span {
+    background: ${(props) => props.color};
+    color: var(--white);
+  }
+
+  @media (max-width: 500px) {
+    width: 10rem;
+  }
+`;
+
 type ButtonProps = {
   color: string;
   isSelected: boolean;

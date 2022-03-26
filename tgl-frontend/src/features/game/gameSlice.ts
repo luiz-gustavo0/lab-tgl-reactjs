@@ -1,9 +1,10 @@
 import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { toast } from 'react-toastify';
 import { AxiosError } from 'axios';
-import api from 'services/api';
 import { RootState } from 'store';
 import type { ErrorMessage, Game } from '@types';
+import { GamesResponse } from 'services/games/interfaces';
+import { fetchGames } from 'services/games';
 
 type CreateGameData = {
   name: string;
@@ -12,11 +13,6 @@ type CreateGameData = {
   max_number: number;
   range: number;
   color: string;
-};
-
-type GetGamesResponse = {
-  min_cart_value: number;
-  types: Game[];
 };
 
 type GameState = {
@@ -28,35 +24,16 @@ type GameState = {
   };
   numbersSelected: number[];
   status: 'IDLE' | 'LOADING' | 'SUCCESS' | 'FAILED';
-  error: ErrorMessage | null;
+  error: string | null | undefined;
 };
 
-export const createGame = createAsyncThunk<
-  void,
-  CreateGameData,
-  { rejectValue: ErrorMessage }
->('game/create', async (createGameData, thunkApi) => {
-  try {
-    const response = await api.post('/admin/create-game', createGameData);
-    if (response.status === 200) {
-      toast.success('Game created successfully');
-    }
-  } catch (error) {
-    const handleError = error as AxiosError<ErrorMessage>;
-    if (!handleError.response) {
-      throw error;
-    }
-    return thunkApi.rejectWithValue(handleError.response?.data);
-  }
-});
-
 export const getGames = createAsyncThunk<
-  GetGamesResponse,
+  GamesResponse,
   void,
   { rejectValue: ErrorMessage }
 >('game/get', async (_, thunkApi) => {
   try {
-    const response = await api.get('/cart_games');
+    const response = await fetchGames();
     return response.data;
   } catch (error) {
     const handleError = error as AxiosError<ErrorMessage>;
@@ -164,24 +141,9 @@ const gameSlice = createSlice({
       .addCase(getGames.rejected, (state, action) => {
         state.status = 'FAILED';
         if (action.payload) {
-          state.error = action.payload;
+          state.error = action.payload.message;
         } else {
-          state.error = { message: action.error.message! };
-        }
-      });
-    builder
-      .addCase(createGame.pending, (state) => {
-        state.status = 'LOADING';
-      })
-      .addCase(createGame.fulfilled, (state) => {
-        state.status = 'SUCCESS';
-      })
-      .addCase(createGame.rejected, (state, action) => {
-        state.status = 'FAILED';
-        if (action.payload) {
-          state.error = action.payload;
-        } else {
-          state.error = { message: action.error.message! };
+          state.error = action.error.message;
         }
       });
   },

@@ -62,7 +62,6 @@ const betsSlice = createSlice({
   initialState,
   reducers: {
     clearBetState(state) {
-      state.bets = [];
       state.status = 'IDLE';
       state.error = null;
     },
@@ -78,6 +77,8 @@ const betsSlice = createSlice({
       })
       .addCase(getBets.rejected, (state, action) => {
         state.status = 'FAILED';
+        state.bets = [];
+
         if (action.payload) {
           state.error = action.payload.message;
         } else {

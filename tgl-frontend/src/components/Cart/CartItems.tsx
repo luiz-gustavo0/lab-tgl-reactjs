@@ -1,17 +1,12 @@
 import { useDispatch } from 'react-redux';
 import { confirmAlert } from 'react-confirm-alert';
+import { toast } from 'react-toastify';
 import { useAppSelector } from 'store/hooks';
 import { removeItemFromCart, selectCart } from 'features/cart/cartSlice';
-import * as S from './styles';
-import iconTrash from 'img/trash-o.svg';
 import { formatNumber } from 'utils/format';
 
-import { toast } from 'react-toastify';
-
-const options = {
-  title: 'Confirm to submit',
-  message: 'Do you want to delete this item?',
-};
+import * as S from './styles';
+import iconTrash from 'img/trash-o.svg';
 
 export const CartItems = () => {
   const { cart } = useAppSelector(selectCart);

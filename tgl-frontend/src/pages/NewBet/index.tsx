@@ -16,12 +16,15 @@ import {
   setGameSelected,
 } from 'features/game/gameSlice';
 import { addItemToCart } from 'features/cart/cartSlice';
+import { useMediaQuery } from 'hooks/useMediaQuery';
 import { Game } from '@types';
 
 import * as S from './styles';
 import iconCart from 'img/cart.svg';
 
 const NewBet = () => {
+  const matches = useMediaQuery('(min-width: 800px)');
+
   const { games, gameSelected, error, numbersSelected } =
     useAppSelector(selectGame);
   const numbers = useAppSelector(generateNumbersOfGame);
@@ -33,7 +36,7 @@ const NewBet = () => {
 
   useEffect(() => {
     if (error) {
-      toast.error(error.message);
+      toast.error(error);
     }
   }, [error]);
 
@@ -51,6 +54,9 @@ const NewBet = () => {
   };
 
   const handleAddItemToCart = (game: Game, numbers: number[]) => {
+    const numbersCopy = [...numbers];
+    const ordenedNumbers = numbersCopy.sort((a, b) => a - b);
+
     if (numbers.length < game.max_number) {
       toast.warn(
         `There are ${
@@ -60,7 +66,8 @@ const NewBet = () => {
       return;
     }
 
-    dispatch(addItemToCart({ game, numbers }));
+    dispatch(addItemToCart({ game, numbers: ordenedNumbers }));
+    dispatch(clearGame());
     toast.success('Game added to cart');
   };
 
@@ -129,7 +136,7 @@ const NewBet = () => {
             </S.Button>
           </S.GameControllers>
         </S.ContentGame>
-        <Cart />
+        {matches && <Cart />}
       </S.Container>
     </>
   );

@@ -10,9 +10,9 @@ const ResetPassword = lazy(() => import('pages/ResetPassword'));
 const ChangePassword = lazy(() => import('pages/ChangePassword'));
 const Home = lazy(() => import('pages/Home'));
 const NewBet = lazy(() => import('pages/NewBet'));
-const NewGame = lazy(() => import('pages/NewGame'));
 
 import { Footer, Layout, PrivateRoutes, Spinner } from 'components';
+import { CartModal } from 'components/Cart/CartModal';
 
 function App() {
   return (
@@ -37,14 +37,7 @@ function App() {
               </PrivateRoutes>
             }
           />
-          <Route
-            path='/new-game'
-            element={
-              <PrivateRoutes>
-                <NewGame />
-              </PrivateRoutes>
-            }
-          />
+
           <Route path='auth' element={<Layout />}>
             <Route index element={<Login />} />
             <Route path='register' element={<Register />} />
@@ -54,6 +47,7 @@ function App() {
         </Routes>
         <Footer />
       </Suspense>
+      <CartModal />
     </>
   );
 }

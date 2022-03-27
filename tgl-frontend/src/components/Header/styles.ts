@@ -15,7 +15,7 @@ export const Container = styled.div`
   align-items: center;
   position: relative;
 
-  @media (max-width: 768px) {
+  @media (max-width: 800px) {
     justify-content: space-between;
   }
 `;
@@ -46,7 +46,7 @@ export const Logo = styled.div`
     font-style: italic;
   }
 
-  @media (max-width: 768px) {
+  @media (max-width: 800px) {
     margin-right: 0;
   }
 `;
@@ -103,7 +103,7 @@ export const Navigation = styled.nav<NavigationProps>`
     }
   }
 
-  @media (max-width: 768px) {
+  @media (max-width: 800px) {
     display: ${(props) => (props.isOpen ? 'flex' : 'none')};
     align-items: flex-start;
     position: absolute;
@@ -148,7 +148,7 @@ export const ButtonMenu = styled.button`
   border: 0;
   z-index: 20;
 
-  @media (max-width: 768px) {
+  @media (max-width: 800px) {
     display: block;
   }
 `;
@@ -160,7 +160,7 @@ export const ButtonCart = styled.button`
   background: transparent;
   border: 0;
 
-  @media (max-width: 768px) {
+  @media (max-width: 800px) {
     display: block;
   }
 `;

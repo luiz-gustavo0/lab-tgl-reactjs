@@ -1,5 +1,6 @@
 interface GamePayload {
-  games: { game_id: number; numbers: number[] };
+  game_id: number;
+  numbers: number[];
 }
 
 interface Betbody {

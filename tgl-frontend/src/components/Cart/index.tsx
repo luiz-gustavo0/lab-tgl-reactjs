@@ -16,25 +16,29 @@ import { toast } from 'react-toastify';
 import { useDispatch } from 'react-redux';
 
 import iconCloseCart from 'img/clear.svg';
+import { useNavigate } from 'react-router-dom';
 
 export const Cart = () => {
   const totalCartValue = useAppSelector(getTotalValueCart);
   const { cart, isCartOpen } = useAppSelector(selectCart);
-  const { status, error } = useAppSelector(selectBet);
+  const { status: betStatus, error } = useAppSelector(selectBet);
 
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   useEffect(() => {
-    if (status === 'SUCCESS') {
+    if (betStatus === 'SUCCESS') {
       dispatch(clearBetState());
       dispatch(clearStateCart());
+      dispatch(closeCart());
+      navigate('/');
     }
 
-    if (status === 'FAILED') {
-      toast.error(error?.message);
+    if (betStatus === 'FAILED') {
+      toast.error(error);
       dispatch(clearBetState());
     }
-  }, [status]);
+  }, [betStatus]);
 
   const handleSaveBet = () => {
     const games = cart.map((item) => {
@@ -52,10 +56,10 @@ export const Cart = () => {
   };
 
   return (
-    <S.WrapperCart isOpen={isCartOpen}>
+    <>
       <S.ButtonCloseCart
         isOpen={isCartOpen}
-        onClick={() => dispatch(closeCart(false))}
+        onClick={() => dispatch(closeCart())}
       >
         <img src={iconCloseCart} alt='icon close cart' />
       </S.ButtonCloseCart>
@@ -74,6 +78,6 @@ export const Cart = () => {
           </button>
         </S.Box>
       </S.Container>
-    </S.WrapperCart>
+    </>
   );
 };

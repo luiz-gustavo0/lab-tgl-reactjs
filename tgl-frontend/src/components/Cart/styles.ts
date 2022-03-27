@@ -1,18 +1,16 @@
 import styled from 'styled-components';
 
-export const WrapperCart = styled.div<{ isOpen: boolean }>`
-  @media (max-width: 900px) {
-    display: ${(props) => (props.isOpen ? 'flex' : 'none')};
-    width: 100%;
-    position: absolute;
-    left: 0;
-    top: 0;
-    height: 100vh;
-    background: rgba(0, 0, 0, 0.7);
-    align-items: center;
-    justify-content: center;
-    z-index: 100;
-  }
+export const WrapperModalCart = styled.div<{ isOpen: boolean }>`
+  display: ${(props) => (props.isOpen ? 'flex' : 'none')};
+  width: 100%;
+  position: absolute;
+  left: 0;
+  top: 0;
+  height: 100vh;
+  background: rgba(0, 0, 0, 0.7);
+  align-items: center;
+  justify-content: center;
+  z-index: 100;
 `;
 
 export const ButtonCloseCart = styled.button<{ isOpen: boolean }>`

@@ -32,12 +32,12 @@ const cartSlice = createSlice({
       state.cart = state.cart.filter((item) => item.id !== action.payload);
     },
 
-    openCart(state, action: PayloadAction<boolean>) {
-      state.isCartOpen = action.payload;
+    openCart(state) {
+      state.isCartOpen = true;
     },
 
-    closeCart(state, action: PayloadAction<boolean>) {
-      state.isCartOpen = action.payload;
+    closeCart(state) {
+      state.isCartOpen = false;
     },
 
     clearStateCart(state) {

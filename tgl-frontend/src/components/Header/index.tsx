@@ -60,7 +60,7 @@ export const Header = () => {
             </li>
           </ul>
         </S.Navigation>
-        <S.ButtonCart onClick={() => dispatch(openCart(true))}>
+        <S.ButtonCart onClick={() => dispatch(openCart())}>
           <img src={iconCart} alt='Icon cart' />
         </S.ButtonCart>
       </S.Container>

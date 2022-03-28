@@ -58,7 +58,7 @@ const Register = () => {
     }
 
     if (status === 'FAILED') {
-      toast.error(error?.message);
+      toast.error(error);
       dispatch(clearUserState());
     }
   }, [status]);

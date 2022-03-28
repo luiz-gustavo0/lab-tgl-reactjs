@@ -6,15 +6,6 @@ import type { ErrorMessage, Game } from '@types';
 import { GamesResponse } from 'services/games/interfaces';
 import { fetchGames } from 'services/games';
 
-type CreateGameData = {
-  name: string;
-  description: string;
-  price: number;
-  max_number: number;
-  range: number;
-  color: string;
-};
-
 type GameState = {
   games: Game[];
   minCartValue: number;

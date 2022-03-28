@@ -1,38 +1,37 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import { AxiosError } from 'axios';
 import { RootState } from 'store';
-import api from 'services/api';
-import type { ErrorMessage, User } from '@types';
+import { User } from '@types';
+import { SignupBody, SignUpResponse } from 'services/user/interfaces';
+import { signUp } from 'services/user';
 
-type SignupCredentials = {
-  name: string;
-  email: string;
-  password: string;
+type ResponseError = {
+  error: {
+    message: string;
+  };
 };
 
 type UserState = {
   user: User | null;
   status: 'IDLE' | 'LOADING' | 'SUCCESS' | 'FAILED';
-  error: ErrorMessage | null;
+  error: string | null | undefined;
 };
 
 export const signUpUser = createAsyncThunk<
-  User,
-  SignupCredentials,
-  { rejectValue: ErrorMessage }
->('users/signUpUser', async (signupCredentials, thunkApi) => {
+  SignUpResponse,
+  SignupBody,
+  { rejectValue: ResponseError }
+>('users/signUpUser', async (body, thunkApi) => {
   try {
-    const response = await api.post('/user/create', signupCredentials);
-    const user = response.data.user;
-
-    return user;
+    const response = await signUp(body);
+    return response.data;
   } catch (error) {
-    const handleError = error as AxiosError<ErrorMessage>;
+    const handleError = error as AxiosError<ResponseError>;
     if (!handleError.response) {
       throw error;
     }
 
-    return thunkApi.rejectWithValue(handleError.response?.data);
+    return thunkApi.rejectWithValue(handleError.response.data);
   }
 });
 
@@ -56,17 +55,16 @@ const userSlice = createSlice({
       .addCase(signUpUser.pending, (state) => {
         state.status = 'LOADING';
       })
-      .addCase(signUpUser.fulfilled, (state, { payload }) => {
-        state.user = payload;
+      .addCase(signUpUser.fulfilled, (state) => {
         state.status = 'SUCCESS';
       })
       .addCase(signUpUser.rejected, (state, action) => {
         state.status = 'FAILED';
 
         if (action.payload) {
-          state.error = action.payload;
+          state.error = action.payload.error.message;
         } else {
-          state.error = { message: action.error.message! };
+          state.error = action.error.message;
         }
       });
   },

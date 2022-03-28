@@ -25,26 +25,6 @@ export const getBets = createAsyncThunk<
   }
 });
 
-export const createBet = createAsyncThunk<
-  void,
-  Betbody,
-  { rejectValue: ErrorMessage }
->('bet/create', async (games, thunkApi) => {
-  try {
-    const response = await postBet(games);
-    if (response.status === 200) {
-      toast.success('Bet save successfully');
-    }
-  } catch (error) {
-    const handleError = error as AxiosError<ErrorMessage>;
-    if (!handleError.response) {
-      throw error;
-    }
-
-    return thunkApi.rejectWithValue(handleError.response?.data);
-  }
-});
-
 type BetState = {
   bets: Bet[];
   status: 'IDLE' | 'LOADING' | 'SUCCESS' | 'FAILED';
@@ -79,21 +59,6 @@ const betsSlice = createSlice({
         state.status = 'FAILED';
         state.bets = [];
 
-        if (action.payload) {
-          state.error = action.payload.message;
-        } else {
-          state.error = action.error.message;
-        }
-      });
-    builder
-      .addCase(createBet.pending, (state) => {
-        state.status = 'LOADING';
-      })
-      .addCase(createBet.fulfilled, (state) => {
-        state.status = 'SUCCESS';
-      })
-      .addCase(createBet.rejected, (state, action) => {
-        state.status = 'FAILED';
         if (action.payload) {
           state.error = action.payload.message;
         } else {

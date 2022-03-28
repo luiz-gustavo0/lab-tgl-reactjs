@@ -86,7 +86,7 @@ const Home = () => {
         </S.Navigation>
         <S.GamesContainer>
           {status === 'LOADING' && <Spinner full={false} />}
-          {formatedBets.length === 0 && <p>No bets registred.</p>}
+          {formatedBets.length === 0 && <span>No bets registred.</span>}
           {formatedBets.map((bet) => (
             <S.Game key={bet.id} color={bet.game[0].color}>
               <p className='game-number'>{bet.choosen_numbers}</p>

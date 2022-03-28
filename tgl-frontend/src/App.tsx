@@ -9,6 +9,7 @@ const Register = lazy(() => import('pages/Register'));
 const ResetPassword = lazy(() => import('pages/ResetPassword'));
 const ChangePassword = lazy(() => import('pages/ChangePassword'));
 const Home = lazy(() => import('pages/Home'));
+const UserAccount = lazy(() => import('pages/UserAccount'));
 const NewBet = lazy(() => import('pages/NewBet'));
 
 import { Footer, Layout, PrivateRoutes, Spinner } from 'components';
@@ -26,6 +27,14 @@ function App() {
             element={
               <PrivateRoutes>
                 <Home />
+              </PrivateRoutes>
+            }
+          />
+          <Route
+            path='/account'
+            element={
+              <PrivateRoutes>
+                <UserAccount />
               </PrivateRoutes>
             }
           />

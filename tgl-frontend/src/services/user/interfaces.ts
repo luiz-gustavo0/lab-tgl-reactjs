@@ -1,3 +1,5 @@
+import { Bet } from '@types';
+
 interface SignUpResponse {
   user: {
     email: string;
@@ -19,4 +21,39 @@ interface SignupBody {
   password: string;
 }
 
-export type { SignupBody, SignUpResponse };
+interface GetUserResponse {
+  id: number;
+  email: string;
+  is_admin: boolean;
+  name: string;
+  token: string;
+  token_created_at: Date;
+  created_at: Date;
+  updated_at: Date;
+  bets: Bet[];
+}
+
+interface UpadateUserData {
+  name?: string;
+  email?: string;
+  password?: string;
+}
+
+interface UpadateUserResponse {
+  id: number;
+  email: string;
+  is_admin: boolean;
+  name: string;
+  token: string;
+  token_created_at: Date;
+  created_at: Date;
+  updated_at: Date;
+}
+
+export type {
+  SignupBody,
+  SignUpResponse,
+  GetUserResponse,
+  UpadateUserData,
+  UpadateUserResponse,
+};

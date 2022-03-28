@@ -11,12 +11,14 @@ import * as S from './styles';
 import iconArrowRight from 'img/arrow-right-green.svg';
 import { formatNumber } from 'utils/format';
 import { useEffect } from 'react';
-import { clearBetState, createBet, selectBet } from 'features/bets/betsSlice';
+import { clearBetState, selectBet } from 'features/bets/betsSlice';
 import { toast } from 'react-toastify';
 import { useDispatch } from 'react-redux';
 
 import iconCloseCart from 'img/clear.svg';
 import { useNavigate } from 'react-router-dom';
+import { postBet } from 'services/bets';
+import { AxiosError } from 'axios';
 
 export const Cart = () => {
   const totalCartValue = useAppSelector(getTotalValueCart);
@@ -29,9 +31,6 @@ export const Cart = () => {
   useEffect(() => {
     if (betStatus === 'SUCCESS') {
       dispatch(clearBetState());
-      dispatch(clearStateCart());
-      dispatch(closeCart());
-      navigate('/');
     }
 
     if (betStatus === 'FAILED') {
@@ -40,7 +39,7 @@ export const Cart = () => {
     }
   }, [betStatus]);
 
-  const handleSaveBet = () => {
+  const handleSaveBet = async () => {
     const games = cart.map((item) => {
       return {
         game_id: item.game.id,
@@ -52,7 +51,22 @@ export const Cart = () => {
       toast.warn('The cart is empty!');
       return;
     }
-    dispatch(createBet({ games }));
+    try {
+      const response = await postBet({ games });
+
+      if (response.status === 200) {
+        toast.success('Bet save successfully');
+        dispatch(clearStateCart());
+        dispatch(closeCart());
+        navigate('/');
+      }
+    } catch (error) {
+      const handleError = error as AxiosError;
+      if (!handleError.response) {
+        throw error;
+      }
+      toast.error(handleError.response.data.message);
+    }
   };
 
   return (

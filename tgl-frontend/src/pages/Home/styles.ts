@@ -147,6 +147,14 @@ export const Button = styled.button<ButtonProps>`
 
 export const GamesContainer = styled.div`
   margin: 3.6rem 0;
+
+  span {
+    display: block;
+    font-size: 2rem;
+    font-style: italic;
+    text-align: center;
+    margin-top: 8rem;
+  }
 `;
 
 type GameProps = {

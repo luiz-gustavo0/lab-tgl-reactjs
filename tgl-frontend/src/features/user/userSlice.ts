@@ -2,8 +2,15 @@ import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import { AxiosError } from 'axios';
 import { RootState } from 'store';
 import { User } from '@types';
-import { SignupBody, SignUpResponse } from 'services/user/interfaces';
-import { signUp } from 'services/user';
+import {
+  GetUserResponse,
+  SignupBody,
+  SignUpResponse,
+  UpadateUserData,
+  UpadateUserResponse,
+} from 'services/user/interfaces';
+import { getUserAccount, signUp, updateUser } from 'services/user';
+import { toast } from 'react-toastify';
 
 type ResponseError = {
   error: {
@@ -35,6 +42,25 @@ export const signUpUser = createAsyncThunk<
   }
 });
 
+export const getUser = createAsyncThunk<
+  GetUserResponse,
+  void,
+  {
+    rejectValue: ResponseError;
+  }
+>('users/get', async (_, thunkApi) => {
+  try {
+    const response = await getUserAccount();
+    return response.data;
+  } catch (error) {
+    const handleError = error as AxiosError<ResponseError>;
+    if (!handleError.response) {
+      throw error;
+    }
+    return thunkApi.rejectWithValue(handleError.response.data);
+  }
+});
+
 const initialState: UserState = {
   user: null,
   status: 'IDLE',
@@ -48,6 +74,7 @@ const userSlice = createSlice({
     clearUserState(state) {
       state.status = 'IDLE';
       state.error = null;
+      state.user = null;
     },
   },
   extraReducers: (builder) => {
@@ -61,6 +88,22 @@ const userSlice = createSlice({
       .addCase(signUpUser.rejected, (state, action) => {
         state.status = 'FAILED';
 
+        if (action.payload) {
+          state.error = action.payload.error.message;
+        } else {
+          state.error = action.error.message;
+        }
+      });
+    builder
+      .addCase(getUser.pending, (state) => {
+        state.status = 'LOADING';
+      })
+      .addCase(getUser.fulfilled, (state, { payload }) => {
+        state.status = 'SUCCESS';
+        state.user = payload;
+      })
+      .addCase(getUser.rejected, (state, action) => {
+        state.status = 'FAILED';
         if (action.payload) {
           state.error = action.payload.error.message;
         } else {

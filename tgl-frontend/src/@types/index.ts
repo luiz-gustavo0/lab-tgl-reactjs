@@ -1,9 +1,14 @@
 export type User = {
   id: number;
   email: string;
-  name: string;
   is_admin: boolean;
-  bets: Game[];
+  name: string;
+  token: string;
+  token_created_at: Date;
+  created_at: Date;
+  updated_at: Date;
+  picture?: string | null;
+  bets: Bet[];
 };
 
 export type ErrorMessage = {

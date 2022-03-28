@@ -48,7 +48,7 @@ export const Header = () => {
               </Link>
             </li>
             <li>
-              <Link to='account' onClick={handleOpenMenu}>
+              <Link to='/account' onClick={handleOpenMenu}>
                 Account
               </Link>
             </li>

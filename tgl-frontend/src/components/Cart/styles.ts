@@ -122,8 +122,9 @@ type BoxInfoProps = {
 };
 
 export const BoxInfo = styled.div<BoxInfoProps>`
+  width: 100%;
   height: 100%;
-  padding: 1.6rem;
+  padding: 1.6rem 1.4rem 1.6rem 1.6rem;
 
   border-left: 4px solid;
   border-top-left-radius: 4px;
@@ -136,14 +137,18 @@ export const BoxInfo = styled.div<BoxInfoProps>`
   }
 
   .numbers {
-    display: block;
     width: 100%;
-    max-width: 19rem;
-    font-size: 1.5rem;
-    font-weight: bold;
-    color: var(--gray-600);
-    font-style: italic;
-    word-break: break-all;
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+
+    & span {
+      font-size: 1.5rem;
+      font-weight: bold;
+      color: var(--gray-600);
+      font-style: italic;
+    }
+    /* word-break: break-all; */
   }
 
   .price {

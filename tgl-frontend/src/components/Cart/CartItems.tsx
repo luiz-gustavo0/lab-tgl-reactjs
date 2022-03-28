@@ -47,7 +47,11 @@ export const CartItems = () => {
               <img src={iconTrash} alt='Icon trash' />
             </button>
             <S.BoxInfo color={item.game.color}>
-              <span className='numbers'>{item.numbers.toString()}</span>
+              <div className='numbers'>
+                {item.numbers.map((number) => (
+                  <span>{number},</span>
+                ))}
+              </div>
               <p>
                 <strong>{item.game.type}</strong>
                 <span className='price'>{formatNumber(item.game.price)}</span>

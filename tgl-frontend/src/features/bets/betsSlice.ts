@@ -1,9 +1,7 @@
 import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
 import type { Bet, ErrorMessage } from '@types';
 import { AxiosError } from 'axios';
-import { toast } from 'react-toastify';
-import { fetchBets, postBet } from 'services/bets';
-import { Betbody } from 'services/bets/interfaces';
+import { fetchBets } from 'services/bets';
 import { RootState } from 'store';
 
 export const getBets = createAsyncThunk<

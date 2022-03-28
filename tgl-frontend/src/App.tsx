@@ -12,8 +12,7 @@ const Home = lazy(() => import('pages/Home'));
 const UserAccount = lazy(() => import('pages/UserAccount'));
 const NewBet = lazy(() => import('pages/NewBet'));
 
-import { Footer, Layout, PrivateRoutes, Spinner } from 'components';
-import { CartModal } from 'components/Cart/CartModal';
+import { Footer, Layout, PrivateRoutes, Spinner, CartModal } from 'components';
 
 function App() {
   return (

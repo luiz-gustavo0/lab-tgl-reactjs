@@ -68,7 +68,9 @@ const Login = () => {
           {...register('password')}
           error={errors.password}
         />
-        <Link to='forgot-password'>I forgot my password</Link>
+        <Link to='forgot-password' data-cy='link-reset-password'>
+          I forgot my password
+        </Link>
         <Button>
           Log In
           {status === 'LOADING' ? (

@@ -5,5 +5,7 @@ interface ButtonProps {
 }
 
 export const Button = ({ children }: ButtonProps) => {
-  return <S.ButtonContainer>{children}</S.ButtonContainer>;
+  return (
+    <S.ButtonContainer data-cy='button-submit'>{children}</S.ButtonContainer>
+  );
 };

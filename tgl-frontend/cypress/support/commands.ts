@@ -23,3 +23,21 @@
 //
 // -- This will overwrite an existing command --
 // Cypress.Commands.overwrite('visit', (originalFn, url, options) => { ... })
+import '@testing-library/cypress/add-commands';
+
+Cypress.Commands.add('dataCy', (value) => {
+  cy.get(`[data-cy=${value}]`);
+});
+
+Cypress.Commands.add(
+  'login',
+  (email = 'userteste@email.com', password = '123456') => {
+    cy.dataCy('email').type(email);
+    cy.dataCy('password').type(password);
+    cy.dataCy('button-submit').click();
+  }
+);
+
+Cypress.Commands.add('closeToastMessage', () => {
+  cy.get('.Toastify__close-button > svg').click();
+});

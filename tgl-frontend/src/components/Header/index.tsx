@@ -53,7 +53,7 @@ export const Header = () => {
               </Link>
             </li>
             <li>
-              <button onClick={logout}>
+              <button onClick={logout} data-cy='btn-logout'>
                 Log out
                 <img src={iconArrowRightBlack} alt='Arrow right icon' />
               </button>

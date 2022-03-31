@@ -16,7 +16,7 @@ describe('Bets page', () => {
     cy.completeGameAndAddToCart('Mega-Sena');
   });
 
-  it('should be possible to remove game from cart', () => {
+  it.skip('should be possible to remove game from cart', () => {
     cy.visit('/new-bet');
     cy.dataCy('Quina').should('exist').click();
     cy.completeGameAndAddToCart('Quina');
@@ -34,7 +34,7 @@ describe('Bets page', () => {
     cy.closeToastMessage();
   });
 
-  it('should display minimum bet amount message', () => {
+  it.skip('should display minimum bet amount message', () => {
     cy.visit('/new-bet');
     cy.dataCy('Lotofácil').should('exist').click();
     cy.completeGameAndAddToCart('Lotofácil');
@@ -72,5 +72,16 @@ describe('Bets page', () => {
     cy.renderedGames('Quina');
     cy.renderedGames('Mega-Sena');
     cy.renderedGames('Lotofácil');
+  });
+
+  it('deve ser possivel limpar jogo', () => {
+    cy.visit('/new-bet');
+    cy.dataCy('Lotofácil').should('exist').click();
+    cy.dataCy('btn-complete-game').click();
+    cy.dataCy('btn-clear-game').should('exist').click();
+    cy.dataCy('numbers-container')
+      .should('exist')
+      .children()
+      .should('have.css', 'background-color', 'rgb(173, 192, 196)');
   });
 });

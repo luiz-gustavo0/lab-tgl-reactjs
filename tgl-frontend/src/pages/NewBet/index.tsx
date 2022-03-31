@@ -105,7 +105,7 @@ const NewBet = () => {
               eaque sapiente atque
             </p>
           </S.GameDescription>
-          <S.NumbersContainer>
+          <S.NumbersContainer data-cy='numbers-container'>
             {numbers.map((number) => (
               <S.ButtonNumber
                 isSelected={numbersSelected.includes(number)}

@@ -41,3 +41,7 @@ Cypress.Commands.add(
 Cypress.Commands.add('closeToastMessage', () => {
   cy.get('.Toastify__close-button > svg').click();
 });
+
+Cypress.Commands.add('renderedGames', (value) => {
+  cy.dataCy('games-container').findAllByTestId(value).should('exist');
+});

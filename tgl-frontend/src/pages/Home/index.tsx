@@ -64,7 +64,7 @@ const Home = () => {
       <Container>
         <S.Navigation>
           <h2>Recent Games</h2>
-          <S.Filters>
+          <S.Filters data-cy='filter-buttons'>
             <span>Filters</span>
             {games.map((game) => (
               <S.Label key={game.id} htmlFor={game.type} color={game.color}>
@@ -75,7 +75,9 @@ const Home = () => {
                   checked={checkFilter(game.type)}
                   onChange={handleChange}
                 />
-                <span>{game.type}</span>
+                <span data-cy='filter-button' role='button'>
+                  {game.type}
+                </span>
               </S.Label>
             ))}
           </S.Filters>
@@ -84,16 +86,18 @@ const Home = () => {
             <img src={arrowRightIcon} alt='Arrow right icon' />
           </Link>
         </S.Navigation>
-        <S.GamesContainer>
+        <S.GamesContainer data-cy='games-container'>
           {status === 'LOADING' && <Spinner full={false} />}
           {formatedBets.length === 0 && <span>No bets registred.</span>}
           {formatedBets.map((bet) => (
-            <S.Game key={bet.id} color={bet.game[0].color}>
+            <S.Game key={bet.id} color={bet.game[0].color} data-cy='card-game'>
               <p className='game-number'>{bet.choosen_numbers}</p>
               <p className='game-price'>
                 {formatDate(bet.created_at)} - ({formatNumber(bet.price)})
               </p>
-              <p className='game-name'>{bet.type.type}</p>
+              <p className='game-name' data-testid={bet.type.type}>
+                {bet.type.type}
+              </p>
             </S.Game>
           ))}
         </S.GamesContainer>

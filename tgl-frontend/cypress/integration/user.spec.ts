@@ -1,11 +1,13 @@
 describe('User', () => {
   context('Register', () => {
-    it.skip('should to be able to register', () => {
+    it('should to be able to register', () => {
+      const email = Math.random().toString(36).slice(5);
+
       cy.visit('/auth/register');
       cy.findByRole('heading', { name: /registration/i }).should('exist');
 
       cy.get('#name').type('User Teste');
-      cy.get('#email').type('userteste@email.com');
+      cy.get('#email').type(`${email}@email.com`);
       cy.get('#password').type('123456');
 
       cy.get('.sc-bdvvtL').click();

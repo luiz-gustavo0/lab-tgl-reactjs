@@ -77,17 +77,20 @@ export const Cart = () => {
       >
         <img src={iconCloseCart} alt='icon close cart' />
       </S.ButtonCloseCart>
-      <S.Container>
+      <S.Container data-cy='cart'>
         <S.Content>
           <h3>Cart</h3>
 
           <CartItems />
           <h4>
-            Cart <span>Total: {formatNumber(totalCartValue)}</span>
+            Cart{' '}
+            <span data-cy='total-cart'>
+              Total: {formatNumber(totalCartValue)}
+            </span>
           </h4>
         </S.Content>
-        <S.Box>
-          <button onClick={handleSaveBet}>
+        <S.Box data-cy={'box-button'}>
+          <button onClick={handleSaveBet} data-cy={'btn-save-bet'}>
             Save <img src={iconArrowRight} alt='Arrow right icon' />
           </button>
         </S.Box>

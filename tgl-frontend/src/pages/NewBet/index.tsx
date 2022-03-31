@@ -90,6 +90,7 @@ const NewBet = () => {
                   color={game.color}
                   isSelected={game.type === gameSelected.game?.type}
                   onClick={() => handleSelectGame(game.type)}
+                  data-cy={game.type}
                 >
                   {game.type}
                 </Button>
@@ -118,10 +119,16 @@ const NewBet = () => {
           </S.NumbersContainer>
           <S.GameControllers>
             <div>
-              <S.Button onClick={() => handleCompleteGame()}>
+              <S.Button
+                onClick={() => handleCompleteGame()}
+                data-cy='btn-complete-game'
+              >
                 Complete game
               </S.Button>
-              <S.Button onClick={() => dispatch(clearGame())}>
+              <S.Button
+                onClick={() => dispatch(clearGame())}
+                data-cy='btn-clear-game'
+              >
                 Clear game
               </S.Button>
             </div>
@@ -130,6 +137,7 @@ const NewBet = () => {
               onClick={() =>
                 handleAddItemToCart(gameSelected.game!, numbersSelected)
               }
+              data-cy='btn-add-cart'
             >
               <img src={iconCart} alt='Cart icon' />
               Add to cart

@@ -39,9 +39,26 @@ Cypress.Commands.add(
 );
 
 Cypress.Commands.add('closeToastMessage', () => {
-  cy.get('.Toastify__close-button > svg').click();
+  cy.get('.Toastify__close-button > svg').click({
+    multiple: true,
+    force: true,
+  });
 });
 
 Cypress.Commands.add('renderedGames', (value) => {
   cy.dataCy('games-container').findAllByTestId(value).should('exist');
+});
+
+Cypress.Commands.add('completeGameAndAddToCart', (gameName) => {
+  cy.dataCy(gameName).should('exist').click();
+  cy.dataCy('btn-complete-game').should('exist').click();
+  cy.dataCy('btn-add-cart').should('exist').click();
+
+  cy.dataCy('cart')
+    .should('exist')
+    .within(() => {
+      cy.findAllByTestId(gameName).should('exist');
+    });
+  cy.findAllByText(/game added to cart/i).should('exist');
+  cy.closeToastMessage();
 });

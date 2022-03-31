@@ -11,6 +11,14 @@ export const WrapperModalCart = styled.div<{ isOpen: boolean }>`
   align-items: center;
   justify-content: center;
   z-index: 100;
+
+  & > aside {
+    display: ${(props) => (props.isOpen ? 'block' : 'none')};
+
+    & > div:last-child {
+      display: ${(props) => (props.isOpen ? 'block' : 'none')};
+    }
+  }
 `;
 
 export const ButtonCloseCart = styled.button<{ isOpen: boolean }>`

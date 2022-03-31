@@ -38,13 +38,13 @@ export const CartItems = () => {
       <S.CartItemContainer>
         {cart.length === 0 && <p>No bets added to cart.</p>}
         {cart.map((item) => (
-          <S.CartItem key={item.id}>
+          <S.CartItem key={item.id} data-testid={item.game.type}>
             <button
               onClick={() => {
                 handleRemoveItemFromCart(item.id);
               }}
             >
-              <img src={iconTrash} alt='Icon trash' />
+              <img src={iconTrash} alt='Icon trash' data-cy='btn-remove-item' />
             </button>
             <S.BoxInfo color={item.game.color}>
               <div className='numbers'>

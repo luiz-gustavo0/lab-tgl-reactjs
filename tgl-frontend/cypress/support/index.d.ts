@@ -21,9 +21,15 @@ declare namespace Cypress {
     closeToastMessage(): Chainable<Element>;
 
     /**
-     * Custom command to verificar rendered games.
+     * Custom command to verify rendered games.
      * @example cy.renderedGames(value)
      */
     renderedGames(value: string): Chainable<Element>;
+
+    /**
+     * Custom command to complete game and add to cart.
+     * @example cy.completeGameAndAddToCart(gameName)
+     */
+    completeGameAndAddToCart(gameName: string): Chainable<Element>;
   }
 }
